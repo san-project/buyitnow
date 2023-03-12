@@ -18,13 +18,13 @@ class _HomeScreenState extends State<HomeScreen> {
       title: const Text('home'),
     ),
     body: MasonryGridView.count(
-  crossAxisCount: 2,
-  mainAxisSpacing: 4,
-  crossAxisSpacing: 4,
-  itemBuilder: (context, index) {
-    return Column(
-      children: [],
-    );
+    crossAxisCount: 2,
+    mainAxisSpacing: 4,
+    crossAxisSpacing: 4,
+    itemBuilder: (context, index) {
+      return Column(
+        children: [],
+      );
   },
 ),
 );

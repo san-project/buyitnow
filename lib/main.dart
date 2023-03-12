@@ -1,4 +1,5 @@
 import 'package:buyitnow/screens/home_screen.dart';
+import 'package:buyitnow/screens/login/login_screen.dart';
 import 'package:buyitnow/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ButtomNavBar(),
+      home: LoginScreen()
     );
   }
 }
