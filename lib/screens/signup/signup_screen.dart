@@ -1,21 +1,20 @@
-import 'package:buyitnow/screens/signup/signup_screen.dart';
+import 'package:buyitnow/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final _formfield = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confPassword = TextEditingController();
+  final phoneController = TextEditingController();
   bool passToggle = true;
-  
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(height: 200,width: 200,),
+                Container(height: 200,width: 200,
+                ),
                 const SizedBox(height: 50,),
                 TextFormField(
                   controller: emailController,
@@ -51,11 +51,55 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                 ),
                 const SizedBox(height: 20,),
+                TextFormField(
+                  controller: phoneController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    labelText: "Phone",
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.phone),
+                  ),
+                  validator: (value){
+                
+                    if(value!.isEmpty){
+                      return "Enter phone number";
+                    }
+                    
+                   
+                  },
+                ),
+                const SizedBox(height: 20,),
                  TextFormField(
                   obscureText: passToggle,
                   controller: passwordController,
                   decoration:  InputDecoration(
                     labelText: "Password",
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.lock),
+                    suffixIcon: InkWell(
+                      onTap: (){
+                        setState(() {
+                          passToggle = !passToggle;
+                        });
+                        
+                      },
+                      child: Icon(passToggle ? Icons.visibility : Icons.visibility_off),
+                    )
+                  ),
+                  validator: (value){
+                    if(value!.isEmpty){
+                      return "Enter Password";
+                    }else if(passwordController.text.length < 6){
+                      return "Password length should be more then 6 characters";
+                    }
+                  },
+                ),
+                 const SizedBox(height: 20,),
+                TextFormField(
+                  obscureText: passToggle,
+                  controller: confPassword,
+                  decoration:  InputDecoration(
+                    labelText: "Confirm Password",
                     border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.lock),
                     suffixIcon: InkWell(
@@ -92,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Center(
-                      child: Text("Log In",
+                      child: Text("Sign Up",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -105,13 +149,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have an account?",style: TextStyle(
+                    Text("Already have an account?",style: TextStyle(
                       fontSize: 16,
                     ),),
                     TextButton(onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SignUpScreen()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>LoginScreen()));
                     }, 
-                    child: Text("Sign Up",
+                    child: Text("Sign In",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold
@@ -122,6 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     )),
         ),
       ),
-    );
+    );;
   }
 }
