@@ -27,8 +27,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(height: 200,width: 200,
-                ),
+                const SizedBox(height: 50,),
+                Text('Sign Up',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
                 const SizedBox(height: 50,),
                 TextFormField(
                   controller: emailController,

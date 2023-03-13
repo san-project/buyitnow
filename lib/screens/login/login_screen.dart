@@ -1,4 +1,5 @@
 import 'package:buyitnow/screens/signup/signup_screen.dart';
+import 'package:buyitnow/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -28,7 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(height: 200,width: 200,),
+                const SizedBox(height: 50,),
+                Text('Login',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
                 const SizedBox(height: 50,),
                 TextFormField(
                   controller: emailController,
@@ -81,6 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onTap: (){
                     if(_formfield.currentState!.validate()){
                       print('Success');
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ButtomNavBar()));
                       emailController.clear();
                       passwordController.clear();
                     }
