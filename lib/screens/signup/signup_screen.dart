@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:buyitnow/screens/login/login_screen.dart';
+import 'package:buyitnow/services/api_services.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -13,8 +16,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confPassword = TextEditingController();
-  final phoneController = TextEditingController();
+  final userNameController = TextEditingController();
   bool passToggle = true;
+  ApiServices _services = ApiServices();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +34,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(height: 50,),
                 Text('Sign Up',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold),),
                 const SizedBox(height: 50,),
+                TextFormField(
+                  controller: userNameController,
+                  keyboardType: TextInputType.text,
+                  decoration: const InputDecoration(
+                    labelText: "UserName",
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                  validator: (value){
+                
+                    if(value!.isEmpty){
+                      return "Enter UserName";
+                    }
+                    
+                   
+                  },
+                ),
+                const SizedBox(height: 20,),
+                
                 TextFormField(
                   controller: emailController,
                   keyboardType: TextInputType.emailAddress,
@@ -50,24 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     }
                   },
                 ),
-                const SizedBox(height: 20,),
-                TextFormField(
-                  controller: phoneController,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    labelText: "Phone",
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.phone),
-                  ),
-                  validator: (value){
                 
-                    if(value!.isEmpty){
-                      return "Enter phone number";
-                    }
-                    
-                   
-                  },
-                ),
                 const SizedBox(height: 20,),
                  TextFormField(
                   obscureText: passToggle,
@@ -122,9 +128,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 SizedBox(height: 60,),
                 InkWell(
-                  onTap: (){
+                  onTap: ()async{
                     if(_formfield.currentState!.validate()){
-                      print('Success');
+                      final user =await  _services.register(userNameController.text,emailController.text,passwordController.text);
+                      
+                      log(user!.token);
                       emailController.clear();
                       passwordController.clear();
                     }

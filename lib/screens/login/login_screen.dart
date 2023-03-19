@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:buyitnow/screens/signup/signup_screen.dart';
+import 'package:buyitnow/services/api_services.dart';
 import 'package:buyitnow/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 
@@ -10,10 +13,23 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formfield = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _formField = GlobalKey<FormState>();
+  late final  TextEditingController emailController;
+  late final TextEditingController passwordController;
   bool passToggle = true;
+  ApiServices _services = ApiServices();
+  @override
+  void initState() {
+    passwordController = TextEditingController();
+    emailController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    super.dispose();
+  }
   
 
 
@@ -24,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 60),
           child: Form(
-            key: _formfield,
+            key: _formField,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,10 +96,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 60,),
                 InkWell(
-                  onTap: (){
-                    if(_formfield.currentState!.validate()){
-                      print('Success');
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ButtomNavBar()));
+                  onTap: ()async{
+                    if(_formField.currentState!.validate()){
+                      final user = await _services.login(emailController.text, passwordController.text);
+                      log(user!.role.toString());
+                      if(user!.role==0){
+                        
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ButtomNavBar()));
+                      }
                       emailController.clear();
                       passwordController.clear();
                     }
