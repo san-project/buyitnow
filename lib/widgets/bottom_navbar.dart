@@ -14,7 +14,7 @@ class ButtomNavBar extends StatefulWidget {
 
 class _ButtomNavBarState extends State<ButtomNavBar> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetOption = <Widget>[
+  static  List<Widget> _widgetOption = <Widget>[
     HomeScreen(),
     CategoriesScreen(),
     CartScreen(), 

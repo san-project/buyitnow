@@ -1,19 +1,69 @@
 
+import 'package:buyitnow/screens/product_details/product_details_screen.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/item_widget.dart';
+import '../models/product_model.dart';
 
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+   HomeScreen({super.key});
+   final items = Product.getProducts();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        
+      appBar: AppBar(
+        elevation: 0,
+        title: Text('BuyItNow',style: TextStyle(color: Colors.black,fontSize: 25),),
+        backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(onPressed: (){}, icon: const Icon(Icons.search,color: Colors.black,size: 30,),)
+        ],
       ),
+      
+      body: Container(
+        child: GridView.builder(
+          shrinkWrap: true,
+          itemCount: 6,
+          padding: EdgeInsets.all(20.0),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
+            mainAxisExtent: 300
+            ), 
+          itemBuilder: (context,index){
+            return GestureDetector(
+               onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      ProductDetailsScreen(item: items[index])));
+            },
+              child: Container(
+                color: Colors.grey.shade200,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 200,
+                      width: 200,
+                      child: Image.network(items[index].image,
+                      fit: BoxFit.fill,
+                      ),
+                      
+                    ),
+                    SizedBox(height: 15,),
+                    Text(items[index].name,style: TextStyle(fontSize: 18),),
+                    SizedBox(height: 10,),
+                    Text('₹ ${items[index].price.toString()}',style: TextStyle(fontSize: 18),),
+                    SizedBox(height: 10,),
+                  ],
+                ),
+              ),
+            );
+          },
+          ),
+      )
     );
     // return Scaffold(
     //   backgroundColor: Theme.of(context).primaryColor,

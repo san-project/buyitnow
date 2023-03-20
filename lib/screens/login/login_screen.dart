@@ -100,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if(_formField.currentState!.validate()){
                       final user = await _services.login(emailController.text, passwordController.text);
                       log(user!.role.toString());
-                      if(user!.role==0){
+                      if(user.role==0){
                         
                       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ButtomNavBar()));
                       }
