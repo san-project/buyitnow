@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 import '../../models/product_model.dart';
 
@@ -16,18 +17,67 @@ class ProductDetailsScreen extends StatelessWidget {
           color: Colors.black,
         ),  
         actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.share,color: Colors.black,),
-          ),
+         
           IconButton(onPressed: (){}, icon: Icon(Icons.favorite_outline,color: Colors.black,))
         ],
       ),
       body: Column(
         children: [
           Expanded(child: Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(8),
             child: SingleChildScrollView(
               child: Column(
-                children: [],
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  VxSwiper.builder(
+                    autoPlay: true,
+                    height: 350,
+                    itemCount: 3,
+                    aspectRatio: 16/9,
+                     itemBuilder: (context,index){
+                    return Image.network(item.image,width: double.infinity,fit: BoxFit.cover,);
+                  }),
+                  SizedBox(height: 10,),
+                  Padding(
+                    padding: const EdgeInsets.only(top:8.0,left:8.0),
+                    child: Text(item.name,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                  ),
+
+                   SizedBox(height: 10,),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('₹ ${item.price.toString()}',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                  ),
+                  SizedBox(height: 10,),
+                  Padding(
+                     padding: const EdgeInsets.only(top:8.0,left:8.0),
+                    child: Text('description :'),
+                  ),
+                   SizedBox(height: 10,),
+                    Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(item.description,style: TextStyle(fontWeight: FontWeight.w600,color: Colors.grey.shade400),),
+                  ),
+                  SizedBox(height: 10,),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    height: 70,
+                    color: Colors.grey,
+                    child: Row(
+                      children: [
+                        Expanded(child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Seller',style: TextStyle(color: Colors.white),),
+                            SizedBox(height: 5,),
+                            Text('SAN STORE')
+                          ],
+                        ))
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
           ),),
