@@ -5,7 +5,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class ApiServices{
  final _dio = Dio(BaseOptions(
-  baseUrl: 'http://192.168.1.103:5000/api/v1',
+  baseUrl: 'http://127.0.0.1:5000/api/v1',
  ))..interceptors.add(PrettyDioLogger());
 
 
@@ -22,6 +22,8 @@ class ApiServices{
       if(response.data['status'] == true){
         final user= User.fromJson(response.data['user']);
         prefs.setString("token", user.token);
+        prefs.setString("id", user.id);
+        prefs.setString("name", user.name);
       }
     }else{
       print('Falid');
@@ -41,7 +43,7 @@ Future<User?> login(String email,String password) async {
     if(response.statusCode==200){
       if(response.data['status'] == true){
         final user= User.fromJson(response.data['user']);
-        prefs.setString("token", user.token);
+        prefs.setString("token", 'user.token');
         return user;
       }
     }else{

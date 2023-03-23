@@ -18,6 +18,7 @@ class ProductDetailsScreen extends StatelessWidget {
         ),  
         actions: [
          
+         
           IconButton(onPressed: (){}, icon: Icon(Icons.favorite_outline,color: Colors.black,))
         ],
       ),

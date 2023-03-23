@@ -43,7 +43,7 @@ class _ButtomNavBarState extends State<ButtomNavBar> {
           tabs: const [
             GButton(icon: Icons.home,text: 'Home',),
             GButton(icon: Icons.category,text: 'categories',),
-            GButton(icon: Icons.badge,text: 'Cart',),
+            GButton(icon: Icons.shopping_bag_outlined,text: 'Cart',),
             GButton(icon: Icons.person,text: 'profile',),
           ]
           ),
