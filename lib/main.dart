@@ -1,6 +1,7 @@
 import 'package:buyitnow/screens/cart/cart_provider.dart';
 import 'package:buyitnow/screens/home_screen.dart';
 import 'package:buyitnow/screens/login/login_screen.dart';
+import 'package:buyitnow/screens/onboarding/onboarding_screen.dart';
 import 'package:buyitnow/screens/splash/splash_screen.dart';
 import 'package:buyitnow/widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';

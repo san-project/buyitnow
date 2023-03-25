@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../widgets/bottom_navbar.dart';
+import '../login/login_page.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,11 +20,9 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 3), () async{
-       SharedPreferences prefs =await SharedPreferences.getInstance();
-       prefs.setString("token", 'user.token');
-
-       var token = prefs.getString('token');
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> token==null? LoginScreen() : ButtomNavBar()));
+      //  SharedPreferences prefs =await SharedPreferences.getInstance();
+      //  var token = prefs.getString('token');
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage() ));
      });
   }
 
