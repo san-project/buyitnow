@@ -1,9 +1,13 @@
 import 'package:buyitnow/screens/cart/cart_screen.dart';
 import 'package:buyitnow/screens/categories/categories_screen.dart';
-import 'package:buyitnow/screens/home_screen.dart';
+
+
 import 'package:buyitnow/screens/profile/profile_screen.dart';
+import 'package:buyitnow/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+
+import '../screens/home/home_screen.dart';
 
 class ButtomNavBar extends StatefulWidget {
   const ButtomNavBar({super.key});
@@ -14,12 +18,11 @@ class ButtomNavBar extends StatefulWidget {
 
 class _ButtomNavBarState extends State<ButtomNavBar> {
   int _selectedIndex = 0;
-  static  List<Widget> _widgetOption = <Widget>[
-    HomeScreen(),
+   List<Widget> _widgetOption = [
+    Homescreen(),
     CategoriesScreen(),
     CartScreen(), 
     ProfileScreen(),
-
   ];
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class _ButtomNavBarState extends State<ButtomNavBar> {
       body: Center(child :_widgetOption.elementAt(_selectedIndex)),
       bottomNavigationBar: Container(
         color: Colors.black,
-        padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 15.0),
+        padding:  EdgeInsets.symmetric(horizontal: 15.w,vertical: 15.h),
         child: GNav(
           backgroundColor: Colors.black,
           color: Colors.white,

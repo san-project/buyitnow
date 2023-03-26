@@ -6,10 +6,11 @@ class SignUpForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom,left: 20,right: 20),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
               "Create an account",
@@ -30,16 +31,59 @@ class SignUpForm extends StatelessWidget {
               icon: Icons.lock,
               hidden: true,
             ),
+            const SizedBox(height: 16),
             const _TextField(
               label: 'confirm Password',
               icon: Icons.lock,
               hidden: true,
             ),
+            Container(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    stops: [0.4, 0.8],
+                    colors: [
+                      Color.fromARGB(255, 239, 104, 80),
+                      Color.fromARGB(255, 139, 33, 146)
+                    ],
+                  ),
+                ),
+                child: DefaultTextStyle(
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                       
+                              child: const Text(
+                                "Create account",
+                                maxLines: 1,
+                                overflow: TextOverflow.fade,
+                                softWrap: false,
+                              ),
+                          
+                      ),
+                      const Icon(
+                        Icons.chevron_right,
+                        size: 24,
+                        color: Colors.white,
+                      )
+                    ],
+                  ),
+                ),
+              ),
             const SizedBox(height: 100),
             Text(
               "Already have an account? Sign in.",
               style: TextStyle(fontSize: 16, color: Colors.blueGrey.shade300),
-            )
+            ),
+            // const SizedBox(height: 100),
           ],
         ),
       ),

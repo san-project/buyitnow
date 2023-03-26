@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:buyitnow/screens/login/login_screen.dart';
+import 'package:buyitnow/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,13 +23,14 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(Duration(seconds: 3), () async{
       //  SharedPreferences prefs =await SharedPreferences.getInstance();
       //  var token = prefs.getString('token');
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> LoginPage() ));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const ButtomNavBar() ));
      });
   }
 
   
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: Container(
         color: Colors.white,

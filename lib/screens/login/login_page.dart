@@ -17,12 +17,11 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.only(bottom: 30),
-        child: Column(
-          children: <Widget>[
-            HeaderContainer("Login"),
-            Expanded(
-              flex: 1,
-              child: Container(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              HeaderContainer("Login"),
+              Container(
                 margin: EdgeInsets.only(left: 20, right: 20, top: 30),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
@@ -36,17 +35,15 @@ class _LoginPageState extends State<LoginPage> {
                         "Forgot Password?",
                       ),
                     ),
-                    Expanded(
-                      child: Center(
-                        child: ButtonWidget(
-                          onClick: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RegPage()));
-                          },
-                          btnText: "LOGIN",
-                        ),
+                    Center(
+                      child: ButtonWidget(
+                        onClick: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RegPage()));
+                        },
+                        btnText: "LOGIN",
                       ),
                     ),
                     RichText(
@@ -61,9 +58,9 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ],
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

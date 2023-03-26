@@ -25,6 +25,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
         ),
         builder: (_) =>  const OnboardContent(),
+        isDismissible: false,
       );
     });
   }
@@ -32,6 +33,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
