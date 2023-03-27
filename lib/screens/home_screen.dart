@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) =>
-                      ProductDetailsScreen(item: items[index])));
+                      ProductDetailsScreens(item: items[index])));
             },
               child: Container(
                 color: Colors.grey.shade200,

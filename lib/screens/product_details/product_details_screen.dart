@@ -3,8 +3,8 @@ import 'package:velocity_x/velocity_x.dart';
 
 import '../../models/product_model.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({super.key, required this.item});
+class ProductDetailsScreens extends StatelessWidget {
+  const ProductDetailsScreens({super.key, required this.item});
   final Product item;
 
   @override

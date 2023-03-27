@@ -4,6 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 
 import '../models/product_model.dart';
+import '../screens/product_details/product_details.dart';
 import '../screens/product_details/product_details_screen.dart';
 
 
