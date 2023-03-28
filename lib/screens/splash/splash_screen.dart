@@ -16,18 +16,17 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3), () async{
+    Timer(Duration(seconds: 3), () async {
       //  SharedPreferences prefs =await SharedPreferences.getInstance();
       //  var token = prefs.getString('token');
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const ButtomNavBar() ));
-     });
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => const SiginPage()));
+    });
   }
 
-  
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -35,7 +34,10 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         color: Colors.white,
         child: Center(
-          child: Text('BuyItNow',style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+          child: Text(
+            'BuyItNow',
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );

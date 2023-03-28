@@ -36,7 +36,7 @@ class _HomescreenState extends State<Homescreen> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.only(top: 44.h, left: 22.w, right: 22.w),
+        padding: EdgeInsets.only(top: 25.h, left: 22.w, right: 22.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
