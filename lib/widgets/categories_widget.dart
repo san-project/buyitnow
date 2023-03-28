@@ -12,26 +12,31 @@ class CategoriesWidget extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          for(int i=1; i< 8; i++)
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 10.w),
-            padding: EdgeInsets.symmetric(vertical: 5.h,horizontal: 10.w),
-            decoration: BoxDecoration(
-              color: AppColors.cardColor,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset('assets/dress.svg',height: 40.h,width: 40.w,),
-                Text('dress',style: TextStyle(
-                  fontSize: 16,
-                  color: AppColors.priceColor,
-                  fontWeight: FontWeight.bold
-                ),)
-              ],
-            ),
-          )
+          for (int i = 1; i < 8; i++)
+            Container(
+              height: 50.h,
+              width: 100.h,
+              margin: EdgeInsets.symmetric(horizontal: 10.w),
+              padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 10.w),
+              decoration: BoxDecoration(
+                color: AppColors.cardColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  // SvgPicture.asset('assets/dress.svg',height: 40.h,width: 40.w,),
+                  Text(
+                    'dress',
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: AppColors.priceColor,
+                        fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            )
         ],
       ),
     );
