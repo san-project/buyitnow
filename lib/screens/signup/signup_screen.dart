@@ -3,7 +3,9 @@
 // import 'package:buyitnow/screens/login/login_screen.dart';
 // import 'package:buyitnow/services/api_services.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/auth_provider.dart';
 import '../../widgets/bottom_navbar.dart';
 import '../login/login_screen.dart';
 
@@ -175,52 +177,67 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Enter Password";
-                    } else if (passwordController.text.length < 6) {
+                    } else if (confPassword.text.length < 6) {
                       return "Password length should be more then 6 characters";
+                    } else if (confPassword.text != passwordController.text) {
+                      return "Both are not same";
                     }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 30),
                 const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (_formField.currentState!.validate()) {
-                          // final user = await _services.login(emailController.text, passwordController.text);
-                          // log(user!.role.toString());
-                          // if(user.role==0){
-
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => ButtomNavBar()));
-                        }
-                        emailController.clear();
-                        passwordController.clear();
-                        //   }
-                        // },
-                        // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        //     builder: (context) => ButtomNavBar()));
-                      },
-                      child: Container(
-                        height: 60,
-                        width: 300,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.black),
-                        child: Center(
-                          child: Text(
-                            "Sign Up",
+                Center(
+                  child: SizedBox(
+                    width: 300,
+                    height: 60,
+                    child: Consumer<AuthProvider>(
+                      builder: (context, provider, child) => ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12))),
+                        onPressed: provider.isLoading
+                            ? null
+                            : () {
+                                if (_formField.currentState!.validate()) {
+                                  provider
+                                      .signUp(
+                                          userNameController.text,
+                                          emailController.text,
+                                          passwordController.text,
+                                          context)
+                                      .then((value) {
+                                    if (value) {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => ButtomNavBars()));
+                                    }
+                                  });
+                                }
+                                // final isValid = _formKey.currentState!.validate();
+                                // if (!isValid) {
+                                //   return;
+                                // }
+                              },
+                        child: Visibility(
+                          visible: !provider.isLoading,
+                          replacement: const CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                          child: const Text(
+                            "Sign In",
                             style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    )
-                  ],
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 10),
               ],

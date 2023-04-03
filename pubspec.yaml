@@ -44,6 +44,8 @@ dependencies:
   path_provider: ^2.0.14
   flutter_svg: ^2.0.4
   flutter_rating_bar: ^4.0.1
+  image_picker: ^0.8.7+1
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:

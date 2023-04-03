@@ -1,5 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
+import 'package:buyitnow/utils/size_config.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/auth_provider.dart';
+import '../../services/api_services.dart';
 import '../../widgets/bottom_navbar.dart';
 import '../signup/signup_screen.dart';
 
@@ -16,6 +22,7 @@ class _SiginPageState extends State<SiginPage> {
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
   bool passToggle = true;
+  ApiServices _services = ApiServices();
   @override
   void initState() {
     passwordController = TextEditingController();
@@ -42,7 +49,7 @@ class _SiginPageState extends State<SiginPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 120),
-                Text(
+                const Text(
                   "Let's sign In.",
                   style: TextStyle(
                       fontSize: 30,
@@ -51,7 +58,7 @@ class _SiginPageState extends State<SiginPage> {
                 ),
                 const SizedBox(height: 5),
                 Row(
-                  children: [
+                  children: const [
                     Text(
                       "WelCome Back.",
                       style: TextStyle(fontSize: 20, color: Colors.black),
@@ -59,7 +66,7 @@ class _SiginPageState extends State<SiginPage> {
                   ],
                 ),
                 Row(
-                  children: [
+                  children: const [
                     Text(
                       "You've been missed!",
                       style: TextStyle(fontSize: 20, color: Colors.black),
@@ -124,7 +131,7 @@ class _SiginPageState extends State<SiginPage> {
                   children: [
                     TextButton(
                       onPressed: () {},
-                      child: Text(
+                      child: const Text(
                         "Forget Passord?",
                         style: TextStyle(
                             fontSize: 16,
@@ -137,16 +144,16 @@ class _SiginPageState extends State<SiginPage> {
                 const SizedBox(height: 1),
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       "Don't have an account?",
                       style: TextStyle(fontSize: 15, color: Colors.black),
                     ),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => SignUpScreen()));
                       },
-                      child: Text(
+                      child: const Text(
                         "Sign Up",
                         style: TextStyle(
                             fontSize: 16,
@@ -157,45 +164,54 @@ class _SiginPageState extends State<SiginPage> {
                   ],
                 ),
                 const SizedBox(height: 30),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (_formField.currentState!.validate()) {
-                          // final user = await _services.login(emailController.text, passwordController.text);
-                          // log(user!.role.toString());
-                          // if(user.role==0){
-
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => ButtomNavBar()));
-                        }
-                        emailController.clear();
-                        passwordController.clear();
-                        //   }
-                        // },
-                        // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        //     builder: (context) => ButtomNavBar()));
-                      },
-                      child: Container(
-                        height: 60,
-                        width: 300,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.black),
-                        child: Center(
-                          child: Text(
+                Center(
+                  child: SizedBox(
+                    width: 300,
+                    height: 60,
+                    child: Consumer<AuthProvider>(
+                      builder: (context, provider, child) => ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12))),
+                        onPressed: provider.isLoading
+                            ? null
+                            : () {
+                                if (_formField.currentState!.validate()) {
+                                  provider
+                                      .signIn(emailController.text,
+                                          passwordController.text, context)
+                                      .then((value) {
+                                    if (value) {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => ButtomNavBars()));
+                                    }
+                                  });
+                                }
+                                // final isValid = _formKey.currentState!.validate();
+                                // if (!isValid) {
+                                //   return;
+                                // }
+                              },
+                        child: Visibility(
+                          visible: !provider.isLoading,
+                          replacement: const CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                          child: const Text(
                             "Sign In",
                             style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
-                    )
-                  ],
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 10),
               ],
