@@ -1,11 +1,8 @@
-import 'dart:developer';
-
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
-import '../../services/api_services.dart';
 import '../../widgets/bottom_navbar.dart';
 import '../signup/signup_screen.dart';
 
@@ -21,10 +18,11 @@ class _SiginPageState extends State<SiginPage> {
   final _formField = GlobalKey<FormState>();
   late final TextEditingController emailController;
   late final TextEditingController passwordController;
+  late final FocusNode _passwordNode;
   bool passToggle = true;
-  ApiServices _services = ApiServices();
   @override
   void initState() {
+    _passwordNode = FocusNode();
     passwordController = TextEditingController();
     emailController = TextEditingController();
     super.initState();
@@ -32,6 +30,7 @@ class _SiginPageState extends State<SiginPage> {
 
   @override
   void dispose() {
+    _passwordNode.dispose();
     passwordController.dispose();
     emailController.dispose();
     super.dispose();
@@ -41,14 +40,14 @@ class _SiginPageState extends State<SiginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(left: 20),
+        padding: EdgeInsets.symmetric(horizontal: 18.w),
         child: SingleChildScrollView(
           child: Form(
             key: _formField,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 120),
+                SizedBox(height: 200.h),
                 const Text(
                   "Let's sign In.",
                   style: TextStyle(
@@ -75,6 +74,9 @@ class _SiginPageState extends State<SiginPage> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  onFieldSubmitted: (value) =>
+                      FocusScope.of(context).requestFocus(_passwordNode),
+                  textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
                   controller: emailController,
                   decoration: InputDecoration(
@@ -95,10 +97,12 @@ class _SiginPageState extends State<SiginPage> {
                     } else if (!emailValid) {
                       return "Enter Valid Email";
                     }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  focusNode: _passwordNode,
                   obscureText: passToggle,
                   controller: passwordController,
                   keyboardType: TextInputType.visiblePassword,
@@ -123,6 +127,7 @@ class _SiginPageState extends State<SiginPage> {
                     } else if (passwordController.text.length < 6) {
                       return "Password length should be more then 6 characters";
                     }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 10),
@@ -151,7 +156,7 @@ class _SiginPageState extends State<SiginPage> {
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (context) => SignUpScreen()));
+                            builder: (context) => const SignUpScreen()));
                       },
                       child: const Text(
                         "Sign Up",
@@ -164,49 +169,48 @@ class _SiginPageState extends State<SiginPage> {
                   ],
                 ),
                 const SizedBox(height: 30),
-                Center(
-                  child: SizedBox(
-                    width: 300,
-                    height: 60,
-                    child: Consumer<AuthProvider>(
-                      builder: (context, provider, child) => ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12))),
-                        onPressed: provider.isLoading
-                            ? null
-                            : () {
-                                if (_formField.currentState!.validate()) {
-                                  provider
-                                      .signIn(emailController.text,
-                                          passwordController.text, context)
-                                      .then((value) {
-                                    if (value) {
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (_) => ButtomNavBars()));
-                                    }
-                                  });
-                                }
-                                // final isValid = _formKey.currentState!.validate();
-                                // if (!isValid) {
-                                //   return;
-                                // }
-                              },
-                        child: Visibility(
-                          visible: !provider.isLoading,
-                          replacement: const CircularProgressIndicator(
+                SizedBox(
+                  width: SizeConfig.screenWidth,
+                  height: 40.h,
+                  child: Consumer<AuthProvider>(
+                    builder: (context, provider, child) => ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12))),
+                      onPressed: provider.isLoading
+                          ? null
+                          : () {
+                              if (_formField.currentState!.validate()) {
+                                provider
+                                    .signIn(emailController.text,
+                                        passwordController.text, context)
+                                    .then((value) {
+                                  if (value) {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const ButtomNavBars()));
+                                  }
+                                });
+                              }
+                              // final isValid = _formKey.currentState!.validate();
+                              // if (!isValid) {
+                              //   return;
+                              // }
+                            },
+                      child: Visibility(
+                        visible: !provider.isLoading,
+                        replacement: const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                        child: const Text(
+                          "Sign In",
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
                             color: Colors.white,
-                          ),
-                          child: const Text(
-                            "Sign In",
-                            style: TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
                           ),
                         ),
                       ),

@@ -6,9 +6,23 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import '../../providers/product_provider.dart';
 import '../../widgets/categories_widget.dart';
+import '../wishlist/wishlist_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<ProductProvider>().getAllProducts(context);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +39,15 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             onPressed: () {},
             icon: const Icon(Icons.search),
+            color: AppColors.textColor,
+          ),
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => const WishlistScreen(),
+              ));
+            },
+            icon: const Icon(Icons.favorite_outline),
             color: AppColors.textColor,
           ),
         ],
@@ -71,7 +94,7 @@ class HomeScreen extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Container(
+                                  SizedBox(
                                       //padding: EdgeInsets.all(10),
                                       height: 147.h,
                                       width: double.infinity,

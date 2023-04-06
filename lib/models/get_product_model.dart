@@ -20,6 +20,7 @@ class ProductModel {
     required this.createdAt,
     required this.updatedAt,
     required this.v,
+    this.isFavourite = false,
   });
 
   final String id;
@@ -39,6 +40,7 @@ class ProductModel {
   final DateTime createdAt;
   final DateTime updatedAt;
   final int v;
+  bool isFavourite;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
         id: json["_id"],
@@ -58,6 +60,7 @@ class ProductModel {
         reviews: List<dynamic>.from(json["reviews"].map((x) => x)),
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
+        isFavourite: json['inWishlist'] ?? false,
         v: json["__v"],
       );
   @override

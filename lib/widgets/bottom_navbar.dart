@@ -17,11 +17,11 @@ class ButtomNavBars extends StatefulWidget {
 
 class _ButtomNavBarsState extends State<ButtomNavBars> {
   int _selectedIndex = 0;
-  List<Widget> _widgetOption = [
-    HomeScreen(),
-    CategoriesScreen(),
-    CartScreen(),
-    ProfileScreen(),
+  final List<Widget> _widgetOption = [
+    const HomeScreen(),
+    const CategoriesScreen(),
+    const CartScreen(),
+    const ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {

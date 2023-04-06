@@ -16,7 +16,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.primaryColor,
         elevation: 0,
-        title: Text(
+        title: const Text(
           'profile',
           style: TextStyle(color: AppColors.priceColor, fontSize: 25),
         ),
@@ -60,7 +60,7 @@ class ProfileScreen extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: Color(0xffe5e5e9),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40),
@@ -75,9 +75,9 @@ class ProfileScreen extends StatelessWidget {
                           Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => const EditProfileScreen()));
                         },
-                        title: Text('Edit Profile'),
-                        leading: Icon(Icons.person),
-                        trailing: Icon(
+                        title: const Text('Edit Profile'),
+                        leading: const Icon(Icons.person),
+                        trailing: const Icon(
                           Icons.arrow_forward_ios,
                           size: 18,
                         ),
@@ -112,14 +112,14 @@ class ProfileScreen extends StatelessWidget {
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => SiginPage(),
+                                  builder: (context) => const SiginPage(),
                                 ),
                                 (route) => false);
                           });
                         },
-                        title: Text('Logout'),
-                        leading: Icon(Icons.logout),
-                        trailing: Icon(
+                        title: const Text('Logout'),
+                        leading: const Icon(Icons.logout),
+                        trailing: const Icon(
                           Icons.arrow_forward_ios,
                           size: 18,
                         ),

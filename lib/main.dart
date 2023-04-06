@@ -24,11 +24,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<CartProvider>(create: (_) => CartProvider()),
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<ProductProvider>(
-            create: (_) => ProductProvider()..getAllProducts(context)),
+            create: (_) => ProductProvider()),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
+          title: 'Buy It Now',
           home: SplashScreen()),
     );
   }

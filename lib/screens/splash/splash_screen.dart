@@ -6,11 +6,9 @@ import 'package:buyitnow/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/bottom_navbar.dart';
-import '../home/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -21,7 +19,6 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(seconds: 3), () async {
       final token = SharedPrefs.instance().token;
-
       Navigator.pushReplacement(
           context,
           MaterialPageRoute(

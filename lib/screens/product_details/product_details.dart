@@ -1,21 +1,17 @@
 import 'package:buyitnow/models/get_product_model.dart';
-import 'package:buyitnow/screens/cart/cart_screen.dart';
+import 'package:buyitnow/utils/extensions.dart';
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart' show CupertinoIcons;
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../utils/colors.dart';
+import '../cart/cart_screen.dart';
 
-class ProductDetailsScreen extends StatefulWidget {
+class ProductDetailsScreen extends StatelessWidget {
   const ProductDetailsScreen({super.key, required this.item});
   final ProductModel item;
 
-  @override
-  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
-}
-
-class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,15 +24,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: Stack(
                 children: [
                   CachedNetworkImage(
-                    imageUrl: widget.item.thumbnail.url,
+                    imageUrl: item.thumbnail.url,
                     height: 351.00.h,
                     width: double.infinity,
                     fit: BoxFit.contain,
                   ),
-                  // Image.network(
-                  //   widget.item.thumbnail.url,
-                  //   height: 351.00.h,
-                  // ),
                   Positioned(
                     top: 10,
                     left: 10,
@@ -55,6 +47,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           size: 25.w,
                           color: Colors.white,
                         )),
+                  ),
+                  Positioned(
+                    right: 10,
+                    top: 10,
+                    child: Icon(
+                      item.isFavourite ? Icons.favorite : Icons.favorite_border,
+                      color: Colors.red,
+                    ),
                   )
                 ],
               ),
@@ -62,6 +62,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             SizedBox(
               height: 20.h,
             ),
+            // Expanded(
+            //   child: DraggableScrollableSheet(
+            //     expand: true,
+            //     builder: (context, scrollController) {
+            //       return Container(
+            //         color: Colors.red,
+            //       );
+            //     },
+            //   ),
+            // ),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
@@ -81,7 +91,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              widget.item.name,
+                              item.name,
                               style: TextStyle(
                                   fontSize: 25,
                                   color: AppColors.priceColor,
@@ -108,7 +118,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         SizedBox(
                           height: 20.h,
                         ),
-                        Text(widget.item.description),
+                        Text(item.description),
                         SizedBox(
                           height: 26.h,
                         ),
@@ -119,7 +129,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               style: TextStyle(
                                   color: AppColors.grayColor, fontSize: 16),
                             ),
-                            Text(widget.item.seller.businessName)
+                            Text(item.seller.businessName)
                           ],
                         ),
                       ],
@@ -141,7 +151,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '₹ ${widget.item.price.toString()}',
+                      '₹ ${item.price.toString()}',
                       style: TextStyle(
                           fontSize: 25,
                           color: AppColors.textColor,
@@ -172,5 +182,40 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
       ),
     );
+  }
+
+  Widget _icon(
+    IconData icon, {
+    Color color = const Color(0xffa8a09b),
+    double size = 20,
+    double padding = 10,
+    bool isOutLine = false,
+    Function? onPressed,
+  }) {
+    return Container(
+      height: 40,
+      width: 40,
+      padding: EdgeInsets.all(padding),
+      decoration: BoxDecoration(
+        border: Border.all(
+            color: const Color(0xffa8a09b),
+            style: isOutLine ? BorderStyle.solid : BorderStyle.none),
+        borderRadius: const BorderRadius.all(Radius.circular(13)),
+        color: isOutLine ? Colors.transparent : Colors.grey,
+        boxShadow: const [
+          BoxShadow(
+              color: Color(0xfff8f8f8),
+              blurRadius: 5,
+              spreadRadius: 10,
+              offset: Offset(5, 5)),
+        ],
+      ),
+      child: Icon(icon,
+          color: item.isFavourite ? Colors.red : Colors.grey, size: size),
+    ).ripple(() {
+      if (onPressed != null) {
+        onPressed();
+      }
+    }, borderRadius: const BorderRadius.all(Radius.circular(13)));
   }
 }

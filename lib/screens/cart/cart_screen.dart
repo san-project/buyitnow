@@ -13,22 +13,22 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
-          CartAppBar(),
+          const CartAppBar(),
           Container(
             height: 700,
             padding: EdgeInsets.only(top: 15.h),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xffedecf2),
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(35), topRight: Radius.circular(35)),
             ),
             child: Column(
-              children: [CartItemSamples()],
+              children: const [CartItemSamples()],
             ),
           ),
         ],
       ),
-      bottomNavigationBar: CartBottomBar(),
+      bottomNavigationBar: const CartBottomBar(),
     );
   }
 }

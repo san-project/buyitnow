@@ -1,7 +1,6 @@
 import 'package:buyitnow/utils/colors.dart';
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class CategoriesWidget extends StatelessWidget {
   const CategoriesWidget({super.key});

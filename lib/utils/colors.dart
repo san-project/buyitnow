@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 
-Color orangeColors = Color(0xffF5591F);
-Color orangeLightColors = Color(0xffF2861E);
-
+Color orangeColors = const Color(0xffF5591F);
+Color orangeLightColors = const Color(0xffF2861E);
 
 class AppColors {
   AppColors._();
-static const primaryColor = Color(0xfff7f7f7);
-static const textColor = Color(0xff0d0f21);
-static const cardColor = Color(0xffffffff);
-static const priceColor = Color(0xff3e45aa);
-static const grayColor = Color(0xffb5b5c4);
-
-
-
+  static const primaryColor = Color(0xfff7f7f7);
+  static const textColor = Color(0xff0d0f21);
+  static const cardColor = Color(0xffffffff);
+  static const priceColor = Color(0xff3e45aa);
+  static const grayColor = Color(0xffb5b5c4);
 }

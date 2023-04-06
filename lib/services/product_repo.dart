@@ -1,23 +1,22 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import '../../utils/shared_prefs.dart';
+import 'base_api_service.dart';
 
 class ProductRepo {
-  final _dio = Dio(BaseOptions(
-    baseUrl: 'https://buyitnow-j5c7.onrender.com/api/v1',
-  ))
-    ..interceptors.add(PrettyDioLogger());
+  final _api = BaseApi().dio;
+
   final token = SharedPrefs.instance().token;
   final userId = SharedPrefs.instance().userId;
 
   Future<Response> getAllProducts() async {
     log(userId ?? "no seller id found");
     try {
-      return await _dio.get(
-        '/product',
-      );
+      return await _api.get('/product',
+          options: token != null
+              ? Options(headers: {'Authorization': 'Bearer $token'})
+              : null);
     } catch (e) {
       rethrow;
     }
@@ -25,7 +24,31 @@ class ProductRepo {
 
   Future<Response> getAllCategories() async {
     try {
-      return _dio.get('/category');
+      return _api.get(
+        '/category',
+      );
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<Response> getAllWishlistProducts() async {
+    log("TOKEN++++ $token");
+    try {
+      return _api.get('/wishlist',
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<Response> addProductToWishlist(String id) async {
+    try {
+      return _api.post('/wishlist',
+          data: {"productId": id},
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
     } catch (e) {
       log(e.toString());
       rethrow;

@@ -19,7 +19,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future takePhoto(ImageSource source) async {
     final pickedFile = await _picker.pickImage(source: source);
     setState(() {
-      _imageFile = pickedFile as XFile?;
+      _imageFile = pickedFile;
     });
   }
 
@@ -88,7 +88,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(
                 height: 40.h,
               ),
-              TextField(
+              const TextField(
                 decoration: InputDecoration(
                   hintText: 'Satyam Gupta',
                   border: OutlineInputBorder(),
@@ -97,7 +97,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(
                 height: 15.h,
               ),
-              TextField(
+              const TextField(
                 decoration: InputDecoration(
                   hintText: 'Satyam@gmail.com',
                   border: OutlineInputBorder(),
@@ -106,7 +106,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               SizedBox(
                 height: 15.h,
               ),
-              TextField(
+              const TextField(
                 decoration: InputDecoration(
                   hintText: 'Satyam Gupta',
                   border: OutlineInputBorder(),
@@ -120,7 +120,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 children: [
                   OutlinedButton(
                     onPressed: () {},
-                    child: Text(
+                    style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                        padding: EdgeInsets.symmetric(horizontal: 50.w),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20))),
+                    child: const Text(
                       'Cancel',
                       style: TextStyle(
                         fontSize: 15,
@@ -128,15 +133,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         color: AppColors.priceColor,
                       ),
                     ),
-                    style: OutlinedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        padding: EdgeInsets.symmetric(horizontal: 50.w),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20))),
                   ),
                   ElevatedButton(
                     onPressed: () {},
-                    child: Text(
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.priceColor,
+                        padding: const EdgeInsets.symmetric(horizontal: 50),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20))),
+                    child: const Text(
                       "SAVE",
                       style: TextStyle(
                         fontSize: 15,
@@ -144,11 +149,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         color: AppColors.cardColor,
                       ),
                     ),
-                    style: ElevatedButton.styleFrom(
-                        primary: AppColors.priceColor,
-                        padding: EdgeInsets.symmetric(horizontal: 50),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20))),
                   )
                 ],
               )

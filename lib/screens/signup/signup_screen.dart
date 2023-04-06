@@ -2,6 +2,7 @@
 
 // import 'package:buyitnow/screens/login/login_screen.dart';
 // import 'package:buyitnow/services/api_services.dart';
+import 'package:buyitnow/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,10 +24,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
   late final TextEditingController passwordController;
   late final TextEditingController confPassword;
   late final TextEditingController userNameController;
+  late final FocusNode _nameFocusNode;
+  late final FocusNode _emailFocusNode;
+  late final FocusNode _passwordFocusNode;
+  late final FocusNode _confirmPasswordFocusNode;
+
   bool passToggle = true;
   bool passToggle1 = true;
   @override
   void initState() {
+    _nameFocusNode = FocusNode();
+    _emailFocusNode = FocusNode();
+    _passwordFocusNode = FocusNode();
+    _confirmPasswordFocusNode = FocusNode();
     passwordController = TextEditingController();
     emailController = TextEditingController();
     userNameController = TextEditingController();
@@ -36,6 +46,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
+    _nameFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    _confirmPasswordFocusNode.dispose();
     passwordController.dispose();
     emailController.dispose();
     userNameController.dispose();
@@ -43,11 +57,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.dispose();
   }
 
+  signUp() {
+    if (_formField.currentState!.validate()) {
+      context
+          .read<AuthProvider>()
+          .signUp(userNameController.text, emailController.text,
+              passwordController.text, context)
+          .then((value) {
+        if (value) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (_) => const ButtomNavBars()));
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(left: 20),
+        padding: EdgeInsets.symmetric(horizontal: 18.w),
         child: SingleChildScrollView(
           child: Form(
             key: _formField,
@@ -55,7 +84,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 120),
-                Text(
+                const Text(
                   "Create An Account",
                   style: TextStyle(
                       fontSize: 30,
@@ -65,7 +94,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(height: 5),
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       "Already a member?",
                       style: TextStyle(fontSize: 15, color: Colors.black),
                     ),
@@ -74,7 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => const SiginPage()));
                       },
-                      child: Text(
+                      child: const Text(
                         "Sign In",
                         style: TextStyle(
                             fontSize: 16,
@@ -86,6 +115,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (value) =>
+                      FocusScope.of(context).requestFocus(_emailFocusNode),
+                  focusNode: _nameFocusNode,
                   keyboardType: TextInputType.emailAddress,
                   controller: userNameController,
                   decoration: InputDecoration(
@@ -101,10 +134,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if (value!.isEmpty) {
                       return "Enter UserName";
                     }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  onFieldSubmitted: (value) =>
+                      FocusScope.of(context).requestFocus(_passwordFocusNode),
+                  textInputAction: TextInputAction.next,
+                  focusNode: _emailFocusNode,
                   keyboardType: TextInputType.emailAddress,
                   controller: emailController,
                   decoration: InputDecoration(
@@ -125,9 +163,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     } else if (!emailValid) {
                       return "Enter Valid Email";
                     }
+                    return null;
                   },
                 ),
                 TextFormField(
+                  onFieldSubmitted: (value) => FocusScope.of(context)
+                      .requestFocus(_confirmPasswordFocusNode),
+                  textInputAction: TextInputAction.next,
+                  focusNode: _passwordFocusNode,
                   obscureText: passToggle,
                   controller: passwordController,
                   keyboardType: TextInputType.visiblePassword,
@@ -152,10 +195,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     } else if (passwordController.text.length < 6) {
                       return "Password length should be more then 6 characters";
                     }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  onFieldSubmitted: (value) {
+                    signUp();
+                  },
+                  textInputAction: TextInputAction.done,
+                  focusNode: _confirmPasswordFocusNode,
                   obscureText: passToggle1,
                   controller: confPassword,
                   keyboardType: TextInputType.visiblePassword,
@@ -186,11 +235,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   },
                 ),
                 const SizedBox(height: 30),
-                const SizedBox(height: 30),
                 Center(
                   child: SizedBox(
-                    width: 300,
-                    height: 60,
+                    width: SizeConfig.screenWidth,
+                    height: 50.h,
                     child: Consumer<AuthProvider>(
                       builder: (context, provider, child) => ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -212,7 +260,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       Navigator.pushReplacement(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (_) => ButtomNavBars()));
+                                              builder: (_) =>
+                                                  const ButtomNavBars()));
                                     }
                                   });
                                 }

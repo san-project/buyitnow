@@ -1,11 +1,10 @@
 import 'dart:developer';
 
-import 'package:buyitnow/services/api_services.dart';
+import 'package:buyitnow/services/auth_repo.dart';
 import 'package:buyitnow/utils/shared_prefs.dart';
 import 'package:buyitnow/utils/snack_bar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _isLoading = false;
@@ -17,8 +16,7 @@ class AuthProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      final response =
-          await ApiServices().login(email: email, password: password);
+      final response = await AuthRepo().login(email: email, password: password);
       _isLoading = false;
       notifyListeners();
       final user = response.data['user'];
@@ -39,8 +37,8 @@ class AuthProvider extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
     try {
-      final response = await ApiServices()
-          .signUp(email: email, password: password, name: name);
+      final response =
+          await AuthRepo().signUp(email: email, password: password, name: name);
       _isLoading = false;
       notifyListeners();
       final user = response.data['user'];
