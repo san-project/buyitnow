@@ -1,16 +1,31 @@
 import 'package:buyitnow/models/get_product_model.dart';
+import 'package:buyitnow/providers/product_provider.dart';
 import 'package:buyitnow/utils/extensions.dart';
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
 import '../../utils/colors.dart';
 import '../cart/cart_screen.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.item});
   final ProductModel item;
+
+  @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  late bool isFavourite;
+
+  @override
+  void initState() {
+    isFavourite = widget.item.isFavourite;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +39,7 @@ class ProductDetailsScreen extends StatelessWidget {
               child: Stack(
                 children: [
                   CachedNetworkImage(
-                    imageUrl: item.thumbnail.url,
+                    imageUrl: widget.item.thumbnail.url,
                     height: 351.00.h,
                     width: double.infinity,
                     fit: BoxFit.contain,
@@ -51,9 +66,25 @@ class ProductDetailsScreen extends StatelessWidget {
                   Positioned(
                     right: 10,
                     top: 10,
-                    child: Icon(
-                      item.isFavourite ? Icons.favorite : Icons.favorite_border,
-                      color: Colors.red,
+                    child: IconButton(
+                      onPressed: () {
+                        if (isFavourite) {
+                          context
+                              .read<ProductProvider>()
+                              .addProductToWishlist(widget.item.id, context);
+                        } else {
+                          context
+                              .read<ProductProvider>()
+                              .addProductToWishlist(widget.item.id, context);
+                        }
+                        setState(() {
+                          isFavourite = !isFavourite;
+                        });
+                      },
+                      icon: Icon(
+                        isFavourite ? Icons.favorite : Icons.favorite_border,
+                        color: Colors.red,
+                      ),
                     ),
                   )
                 ],
@@ -91,7 +122,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              item.name,
+                              widget.item.name,
                               style: TextStyle(
                                   fontSize: 25,
                                   color: AppColors.priceColor,
@@ -118,7 +149,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         SizedBox(
                           height: 20.h,
                         ),
-                        Text(item.description),
+                        Text(widget.item.description),
                         SizedBox(
                           height: 26.h,
                         ),
@@ -129,7 +160,7 @@ class ProductDetailsScreen extends StatelessWidget {
                               style: TextStyle(
                                   color: AppColors.grayColor, fontSize: 16),
                             ),
-                            Text(item.seller.businessName)
+                            Text(widget.item.seller.businessName)
                           ],
                         ),
                       ],
@@ -151,7 +182,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '₹ ${item.price.toString()}',
+                      '₹ ${widget.item.price.toString()}',
                       style: TextStyle(
                           fontSize: 25,
                           color: AppColors.textColor,
@@ -211,7 +242,8 @@ class ProductDetailsScreen extends StatelessWidget {
         ],
       ),
       child: Icon(icon,
-          color: item.isFavourite ? Colors.red : Colors.grey, size: size),
+          color: widget.item.isFavourite ? Colors.red : Colors.grey,
+          size: size),
     ).ripple(() {
       if (onPressed != null) {
         onPressed();

@@ -54,4 +54,15 @@ class ProductRepo {
       rethrow;
     }
   }
+
+  Future<Response> removeProductToWishlist(String id) async {
+    try {
+      return _api.delete('/wishlist',
+          data: {"productId": id},
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+    } catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
 }
