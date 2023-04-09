@@ -7,8 +7,9 @@ class BaseApi {
   factory BaseApi() => BaseApi._()..init();
   static final _dio = Dio(
     BaseOptions(
-      headers: {},
-      baseUrl: 'https://buyitnow-j5c7.onrender.com/api/v1',
+      baseUrl: kDebugMode
+          ? "http://192.168.1.101:5000/api/v1"
+          : 'https://buyitnow-j5c7.onrender.com/api/v1',
     ),
   );
   Dio get dio => _dio;

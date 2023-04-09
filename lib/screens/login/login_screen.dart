@@ -161,9 +161,10 @@ class _SiginPageState extends State<SiginPage> {
                       child: const Text(
                         "Sign Up",
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ],
@@ -218,6 +219,12 @@ class _SiginPageState extends State<SiginPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
+                Center(child: Text('or')),
+                Center(
+                  child: TextButton(
+                      onPressed: () {},
+                      child: Text('Continue without sign in')),
+                )
               ],
             ),
           ),
