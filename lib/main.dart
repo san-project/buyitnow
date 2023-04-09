@@ -1,6 +1,6 @@
 import 'package:buyitnow/providers/auth_provider.dart';
+import 'package:buyitnow/providers/cart_provider.dart';
 import 'package:buyitnow/providers/product_provider.dart';
-import 'package:buyitnow/screens/cart/cart_provider.dart';
 import 'package:buyitnow/utils/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,9 +26,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<ProductProvider>(
             create: (_) => ProductProvider()),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Buy It Now',
+          theme: ThemeData(useMaterial3: true),
           home: SplashScreen()),
     );
   }

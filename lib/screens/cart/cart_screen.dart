@@ -1,35 +1,63 @@
+import 'dart:developer';
+
+import 'package:buyitnow/providers/cart_provider.dart';
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../utils/colors.dart';
 import '../../widgets/cart_appbar.dart';
 import '../../widgets/cart_bottom_navbar.dart';
 import '../../widgets/cart_item_sample.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
 
   @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<CartProvider>().getCartProduct(context);
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView(
-        children: [
-          const CartAppBar(),
-          Container(
-            height: 700,
-            padding: EdgeInsets.only(top: 15.h),
-            decoration: const BoxDecoration(
-              color: Color(0xffedecf2),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(35), topRight: Radius.circular(35)),
-            ),
-            child: Column(
-              children: const [CartItemSamples()],
+    return Consumer<CartProvider>(builder: (context, provider, _) {
+      return Visibility(
+        visible: !provider.isLoading,
+        replacement: const Center(
+          child: CircularProgressIndicator(),
+        ),
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              'Cart',
+              style: TextStyle(
+                  fontSize: 23,
+                  color: AppColors.priceColor,
+                  fontWeight: FontWeight.w700),
             ),
           ),
-        ],
-      ),
-      bottomNavigationBar: const CartBottomBar(),
-    );
+          body: provider.cart!.cart.isEmpty
+              ? const Center(
+                  child: Text('You have not added products in cart'),
+                )
+              : ListView.builder(
+                  itemCount: provider.cart!.cart.length,
+                  itemBuilder: (context, index) =>
+                      CartItem(cart: provider.cart!.cart[index]),
+                ),
+          bottomNavigationBar:
+              provider.cart!.cart.isNotEmpty ? const CartBottomBar() : null,
+        ),
+      );
+    });
   }
 }
 

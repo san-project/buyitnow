@@ -16,7 +16,7 @@ class ProductRepo {
       return await _api.get('/product',
           options: token != null
               ? Options(headers: {'Authorization': 'Bearer $token'})
-              : null);
+              : Options());
     } catch (e) {
       rethrow;
     }

@@ -1,5 +1,7 @@
 import 'package:buyitnow/models/get_product_model.dart';
+import 'package:buyitnow/providers/cart_provider.dart';
 import 'package:buyitnow/providers/product_provider.dart';
+import 'package:buyitnow/screens/login/login_screen.dart';
 import 'package:buyitnow/utils/extensions.dart';
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,8 +9,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+import '../../utils/check_login.dart';
 import '../../utils/colors.dart';
+import '../../utils/shared_prefs.dart';
 import '../cart/cart_screen.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.item});
@@ -20,10 +25,13 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late bool isFavourite;
-
+  int _curernt = 0;
+  late final List<String> _images;
   @override
   void initState() {
     isFavourite = widget.item.isFavourite;
+    _images = widget.item.images.map((e) => e.url).toList();
+    _images.insert(0, widget.item.thumbnail.url);
     super.initState();
   }
 
@@ -38,11 +46,51 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               height: 351.00.h,
               child: Stack(
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: widget.item.thumbnail.url,
-                    height: 351.00.h,
-                    width: double.infinity,
-                    fit: BoxFit.contain,
+                  CarouselSlider(
+                    items: _images
+                        .map((item) => Container(
+                              child: CachedNetworkImage(
+                                imageUrl: item,
+                                height: 351.00.h,
+                                width: double.infinity,
+                                fit: BoxFit.contain,
+                              ),
+                            ))
+                        .toList(),
+                    options: CarouselOptions(
+                        autoPlay: true,
+                        aspectRatio: 1.0,
+                        enlargeCenterPage: true,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                            _curernt = index;
+                          });
+                        }),
+                  ),
+                  Positioned(
+                    bottom: 0.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: _images.map((url) {
+                        int index = _images.indexOf(url);
+                        return Container(
+                          width: 8.h,
+                          height: 8.h,
+                          margin: EdgeInsets.symmetric(
+                            vertical: 10,
+                            horizontal: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: _curernt == index
+                                ? Color.fromRGBO(0, 0, 0, 0.9)
+                                : Color.fromRGBO(0, 0, 0, 0.4),
+                          ),
+                        );
+                      }).toList(),
+                    ),
                   ),
                   Positioned(
                     top: 10,
@@ -67,19 +115,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     right: 10,
                     top: 10,
                     child: IconButton(
-                      onPressed: () {
-                        if (isFavourite) {
+                      onPressed: () async {
+                        final isLoggedIn = await checkLogin(context) ?? false;
+                        if (isLoggedIn && mounted) {
                           context
                               .read<ProductProvider>()
-                              .addProductToWishlist(widget.item.id, context);
-                        } else {
-                          context
-                              .read<ProductProvider>()
-                              .addProductToWishlist(widget.item.id, context);
+                              .addOrRemoveProductWishlist(
+                                  widget.item.id, isFavourite, context);
+                          setState(() {
+                            isFavourite = !isFavourite;
+                          });
                         }
-                        setState(() {
-                          isFavourite = !isFavourite;
-                        });
                       },
                       icon: Icon(
                         isFavourite ? Icons.favorite : Icons.favorite_border,
@@ -200,9 +246,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         color: AppColors.priceColor,
                         size: 24.0,
                       ),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CartScreen()));
+                      onPressed: () async {
+                        final isLoggedIn = await checkLogin(context) ?? false;
+                        if (isLoggedIn && mounted) {
+                          context
+                              .read<CartProvider>()
+                              .addCartProduct(widget.item.id, context);
+                        }
                       },
                     ),
                   ],

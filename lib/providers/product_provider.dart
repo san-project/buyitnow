@@ -55,10 +55,17 @@ class ProductProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> addProductToWishlist(String id, BuildContext context) async {
+  Future<void> addOrRemoveProductWishlist(
+      String id, bool isFavourite, BuildContext context) async {
     try {
-      final response = await ProductRepo().addProductToWishlist(id);
-      log(response.data.toString());
+      if (isFavourite) {
+        final response = await ProductRepo().removeProductToWishlist(id);
+        log(response.data.toString());
+      } else {
+        final response = await ProductRepo().addProductToWishlist(id);
+        log(response.data.toString());
+      }
+
       // final listOfProducts = response.data['products'] as List;
       // _wishlist = prd.getProductsFromJson(listOfProducts);
       // _isLoading = false;

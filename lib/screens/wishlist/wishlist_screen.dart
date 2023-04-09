@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:buyitnow/providers/product_provider.dart';
+import 'package:buyitnow/screens/product_details/product_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,6 +43,12 @@ class _WishlistScreenState extends State<WishlistScreen> {
               itemBuilder: (context, index) {
                 final currentProduct = provider.wishlist[index];
                 return ListTile(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) =>
+                          ProductDetailsScreen(item: currentProduct),
+                    ));
+                  },
                   leading: Image.network(currentProduct.thumbnail.url),
                   title: Text(currentProduct.name),
                   subtitle: Text(

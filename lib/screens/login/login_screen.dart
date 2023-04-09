@@ -1,3 +1,4 @@
+import 'package:buyitnow/screens/home/home_screen.dart';
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -219,11 +220,15 @@ class _SiginPageState extends State<SiginPage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Center(child: Text('or')),
+                const Center(child: Text('or')),
                 Center(
                   child: TextButton(
-                      onPressed: () {},
-                      child: Text('Continue without sign in')),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const ButtomNavBars(),
+                        ));
+                      },
+                      child: const Text('Continue without sign in')),
                 )
               ],
             ),
