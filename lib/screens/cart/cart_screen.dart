@@ -44,7 +44,7 @@ class _CartScreenState extends State<CartScreen> {
                   fontWeight: FontWeight.w700),
             ),
           ),
-          body: provider.cart!.cart.isEmpty
+          body: provider.cart?.cart.isEmpty ?? true
               ? const Center(
                   child: Text('You have not added products in cart'),
                 )

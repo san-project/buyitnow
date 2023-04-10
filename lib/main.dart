@@ -1,5 +1,6 @@
 import 'package:buyitnow/providers/auth_provider.dart';
 import 'package:buyitnow/providers/cart_provider.dart';
+import 'package:buyitnow/providers/category_provider.dart';
 import 'package:buyitnow/providers/product_provider.dart';
 import 'package:buyitnow/utils/shared_prefs.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<ProductProvider>(
             create: (_) => ProductProvider()),
+        ChangeNotifierProvider<CategoryProvider>(
+            create: (_) => CategoryProvider()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
