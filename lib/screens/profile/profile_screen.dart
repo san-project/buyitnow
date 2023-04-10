@@ -1,10 +1,12 @@
 import 'package:buyitnow/screens/edit_profile/edit_profile_screen.dart';
+import 'package:buyitnow/screens/wishlist/wishlist_screen.dart';
 import 'package:buyitnow/utils/colors.dart';
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/auth_provider.dart';
+import '../../utils/check_login.dart';
 import '../login/login_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -90,10 +92,17 @@ class ProfileScreen extends StatelessWidget {
                           size: 18,
                         ),
                       ),
-                      const ListTile(
-                        title: Text('Wishlist'),
-                        leading: Icon(Icons.favorite_sharp),
-                        trailing: Icon(
+                      ListTile(
+                        onTap: () async {
+                          final isLoggedIn = await checkLogin(context) ?? false;
+                          if (isLoggedIn) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const WishlistScreen()));
+                          }
+                        },
+                        title: const Text('Wishlist'),
+                        leading: const Icon(Icons.favorite_sharp),
+                        trailing: const Icon(
                           Icons.arrow_forward_ios,
                           size: 18,
                         ),

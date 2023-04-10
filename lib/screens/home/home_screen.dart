@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import '../../providers/product_provider.dart';
+import '../../utils/check_login.dart';
 import '../../widgets/categories_widget.dart';
 import '../wishlist/wishlist_screen.dart';
 
@@ -42,10 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
             color: AppColors.textColor,
           ),
           IconButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => const WishlistScreen(),
-              ));
+            onPressed: () async {
+              final isLoggedIn = await checkLogin(context) ?? false;
+              if (isLoggedIn) {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const WishlistScreen()));
+              }
             },
             icon: const Icon(Icons.favorite_outline),
             color: AppColors.textColor,

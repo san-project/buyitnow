@@ -1,7 +1,6 @@
 import 'package:buyitnow/models/get_product_model.dart';
 import 'package:buyitnow/providers/cart_provider.dart';
 import 'package:buyitnow/providers/product_provider.dart';
-import 'package:buyitnow/screens/login/login_screen.dart';
 import 'package:buyitnow/utils/extensions.dart';
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -11,8 +10,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import '../../utils/check_login.dart';
 import '../../utils/colors.dart';
-import '../../utils/shared_prefs.dart';
-import '../cart/cart_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -48,13 +45,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 children: [
                   CarouselSlider(
                     items: _images
-                        .map((item) => Container(
-                              child: CachedNetworkImage(
-                                imageUrl: item,
-                                height: 351.00.h,
-                                width: double.infinity,
-                                fit: BoxFit.contain,
-                              ),
+                        .map((item) => CachedNetworkImage(
+                              imageUrl: item,
+                              height: 351.00.h,
+                              width: double.infinity,
+                              fit: BoxFit.contain,
                             ))
                         .toList(),
                     options: CarouselOptions(
@@ -78,15 +73,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         return Container(
                           width: 8.h,
                           height: 8.h,
-                          margin: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(
                             vertical: 10,
                             horizontal: 3,
                           ),
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             color: _curernt == index
-                                ? Color.fromRGBO(0, 0, 0, 0.9)
-                                : Color.fromRGBO(0, 0, 0, 0.4),
+                                ? const Color.fromRGBO(0, 0, 0, 0.9)
+                                : const Color.fromRGBO(0, 0, 0, 0.4),
                           ),
                         );
                       }).toList(),
@@ -151,7 +146,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             // ),
             Expanded(
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: Color(0xffe5e5e9),
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40),
@@ -169,7 +164,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           children: [
                             Text(
                               widget.item.name,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 25,
                                   color: AppColors.priceColor,
                                   fontWeight: FontWeight.bold),
@@ -179,7 +174,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               children: [
                                 RatingBarIndicator(
                                   rating: 2.75,
-                                  itemBuilder: (context, index) => Icon(
+                                  itemBuilder: (context, index) => const Icon(
                                     Icons.star,
                                     color: Colors.amber,
                                   ),
@@ -201,7 +196,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                         Row(
                           children: [
-                            Text(
+                            const Text(
                               ' Seller : ',
                               style: TextStyle(
                                   color: AppColors.grayColor, fontSize: 16),
@@ -219,7 +214,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: Container(
                 height: 70.h,
                 padding: EdgeInsets.symmetric(horizontal: 20.h),
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     color: AppColors.cardColor,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40),
@@ -229,18 +224,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   children: [
                     Text(
                       '₹ ${widget.item.price.toString()}',
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 25,
                           color: AppColors.textColor,
                           fontWeight: FontWeight.bold),
                     ),
                     FloatingActionButton.extended(
-                      label: Text(
+                      label: const Text(
                         'add To Cart',
                         style: TextStyle(color: AppColors.priceColor),
                       ), // <-- Text
                       backgroundColor: Colors.grey.shade300,
-                      icon: Icon(
+                      icon: const Icon(
                         // <-- Icon
                         CupertinoIcons.cart_badge_plus,
                         color: AppColors.priceColor,
