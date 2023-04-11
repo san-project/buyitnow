@@ -22,6 +22,22 @@ class ProductRepo {
     }
   }
 
+  Future<Response> getProductByCategory(String categoryId) async {
+    try {
+      return await _api.get('/product/categoryproducts?categoryId=$categoryId');
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<Response> getProductBySeller(String sellerId) async {
+    try {
+      return await _api.get('/product/sellerProducts?sellerId=$sellerId');
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<Response> getAllCategories() async {
     try {
       return _api.get(

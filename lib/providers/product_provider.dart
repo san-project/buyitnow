@@ -16,6 +16,8 @@ class ProductProvider extends ChangeNotifier {
   List<File> get pickedImages => _pickedImages;
   List<prd.ProductModel> _listOfProducts = [];
   List<prd.ProductModel> get listOfProducts => _listOfProducts;
+  List<prd.ProductModel> _listOfProductsFilter = [];
+  List<prd.ProductModel> get listOfProductsFilter => _listOfProductsFilter;
   List<prd.ProductModel> _wishlist = [];
   List<prd.ProductModel> get wishlist => _wishlist;
   Future<void> getAllProducts(BuildContext context) async {
@@ -28,6 +30,41 @@ class ProductProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
       log("listofproducts $_listOfProducts");
+    } on DioError catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      dioError(context, e);
+    }
+  }
+
+  Future<void> getProductByCategory(
+      BuildContext context, String categoryId) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      final response = await ProductRepo().getProductByCategory(categoryId);
+      final listOfProducts = response.data['products'] as List;
+      _listOfProductsFilter = prd.getProductsFromJson(listOfProducts);
+      _isLoading = false;
+      notifyListeners();
+      log("listofproducts $_listOfProductsFilter");
+    } on DioError catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      dioError(context, e);
+    }
+  }
+
+  Future<void> getProductBySeller(BuildContext context, String sellerId) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      final response = await ProductRepo().getProductBySeller(sellerId);
+      final listOfProducts = response.data['products'] as List;
+      _listOfProductsFilter = prd.getProductsFromJson(listOfProducts);
+      _isLoading = false;
+      notifyListeners();
+      log("listofproducts $_listOfProductsFilter");
     } on DioError catch (e) {
       _isLoading = false;
       notifyListeners();

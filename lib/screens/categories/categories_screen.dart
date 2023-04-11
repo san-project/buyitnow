@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:buyitnow/providers/category_provider.dart';
+import 'package:buyitnow/screens/categories_product/categories_product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,9 +41,18 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                   crossAxisCount: 4, mainAxisSpacing: 10, crossAxisSpacing: 10),
               itemBuilder: (context, index) {
                 final currentCategory = provider.categories[index];
-                return Card(
-                  child: GridTile(
-                    child: Text(currentCategory.category),
+                return InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CategoryProductSCreen(
+                              categoryId: currentCategory.id,
+                              categoryName: currentCategory.category,
+                            )));
+                  },
+                  child: Card(
+                    child: GridTile(
+                      child: Text(currentCategory.category),
+                    ),
                   ),
                 );
               },

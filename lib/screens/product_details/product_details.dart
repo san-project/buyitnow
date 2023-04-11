@@ -1,6 +1,7 @@
 import 'package:buyitnow/models/get_product_model.dart';
 import 'package:buyitnow/providers/cart_provider.dart';
 import 'package:buyitnow/providers/product_provider.dart';
+import 'package:buyitnow/screens/seller_product/seller_product_screen.dart';
 import 'package:buyitnow/utils/extensions.dart';
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -201,7 +202,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               style: TextStyle(
                                   color: AppColors.grayColor, fontSize: 16),
                             ),
-                            Text(widget.item.seller.businessName)
+                            InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => SellerProductScreen(
+                                            sellerName:
+                                                widget.item.seller.businessName,
+                                            sellerId: widget.item.seller.id,
+                                          )));
+                                },
+                                child: Text(widget.item.seller.businessName))
                           ],
                         ),
                       ],
