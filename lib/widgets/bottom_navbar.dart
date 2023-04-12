@@ -28,15 +28,17 @@ class _ButtomNavBarsState extends State<ButtomNavBars> {
     return Scaffold(
       body: Center(child: _widgetOption.elementAt(_selectedIndex)),
       bottomNavigationBar: Container(
-        color: Colors.black,
-        padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        color: const Color(0xffebf1e6),
         child: GNav(
-            backgroundColor: Colors.black,
-            color: Colors.white,
-            activeColor: Colors.white,
-            tabBackgroundColor: Colors.grey.shade800,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             gap: 8,
-            padding: const EdgeInsets.all(8.0),
+            backgroundColor: const Color(0xffebf1e6),
+            color: Colors.grey.shade800,
+            activeColor: Colors.black,
+            tabBackgroundColor: const Color(0xffd9e7cb),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            selectedIndex: _selectedIndex,
             onTabChange: (index) {
               setState(() {
                 _selectedIndex = index;

@@ -211,7 +211,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             sellerId: widget.item.seller.id,
                                           )));
                                 },
-                                child: Text(widget.item.seller.businessName))
+                                child: Text(
+                                  widget.item.seller.businessName,
+                                  style: TextStyle(color: Colors.blue),
+                                ))
                           ],
                         ),
                       ],

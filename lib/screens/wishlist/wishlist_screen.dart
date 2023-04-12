@@ -38,28 +38,34 @@ class _WishlistScreenState extends State<WishlistScreen> {
             return const Center(
                 child: Text('You have not added any product to wishlist'));
           } else {
-            return ListView.builder(
-              itemCount: provider.wishlist.length,
-              itemBuilder: (context, index) {
-                final currentProduct = provider.wishlist[index];
-                return ListTile(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) =>
-                          ProductDetailsScreen(item: currentProduct),
-                    ));
-                  },
-                  leading: Image.network(currentProduct.thumbnail.url),
-                  title: Text(currentProduct.name),
-                  subtitle: Text(
-                    currentProduct.description,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  trailing: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.favorite_border)),
-                );
-              },
+            return Visibility(
+              visible: !provider.isLoading,
+              replacement: const Center(
+                child: CircularProgressIndicator(),
+              ),
+              child: ListView.builder(
+                itemCount: provider.wishlist.length,
+                itemBuilder: (context, index) {
+                  final currentProduct = provider.wishlist[index];
+                  return ListTile(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ProductDetailsScreen(item: currentProduct),
+                      ));
+                    },
+                    leading: Image.network(currentProduct.thumbnail.url),
+                    title: Text(currentProduct.name),
+                    subtitle: Text(
+                      currentProduct.description,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    trailing: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.favorite_border)),
+                  );
+                },
+              ),
             );
           }
         },

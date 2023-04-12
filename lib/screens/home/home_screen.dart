@@ -81,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisCount: 2,
                                 mainAxisSpacing: 15,
                                 crossAxisSpacing: 15,
-                                childAspectRatio: 0.6),
+                                childAspectRatio: 0.65),
                         itemBuilder: (context, index) {
                           final currentProduct = provider.listOfProducts[index];
                           return GestureDetector(
@@ -131,24 +131,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                   SizedBox(
                                     height: 6.h,
                                   ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      RatingBarIndicator(
-                                        rating:
-                                            currentProduct.rating.toDouble(),
-                                        itemBuilder: (context, index) =>
-                                            const Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                        ),
-                                        itemCount: 5,
-                                        itemSize: 17.0,
-                                        direction: Axis.horizontal,
-                                      ),
-                                      Text(currentProduct.rating.toString()),
-                                    ],
-                                  ),
+                                  // Row(
+                                  //   mainAxisAlignment: MainAxisAlignment.center,
+                                  //   children: [
+                                  //     RatingBarIndicator(
+                                  //       rating:
+                                  //           currentProduct.rating.toDouble(),
+                                  //       itemBuilder: (context, index) =>
+                                  //           const Icon(
+                                  //         Icons.star,
+                                  //         color: Colors.amber,
+                                  //       ),
+                                  //       itemCount: 5,
+                                  //       itemSize: 17.0,
+                                  //       direction: Axis.horizontal,
+                                  //     ),
+                                  //     Text(currentProduct.rating.toString()),
+                                  //   ],
+                                  // ),
                                 ],
                               ),
                             ),
