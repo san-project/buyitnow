@@ -33,12 +33,19 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Buy It Now',
           theme: ThemeData(
-              useMaterial3: true,
-              colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+              useMaterial3: false,
+
+              //  colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
               inputDecorationTheme: InputDecorationTheme(
                 filled: true,
-                fillColor: Colors.grey.shade200,
-                border: InputBorder.none,
+                labelStyle: TextStyle(
+                    fontSize: 16, color: Colors.black.withOpacity(0.6)),
+                hintStyle: TextStyle(
+                    fontSize: 16, color: Colors.black.withOpacity(0.6)),
+                fillColor: Color(0xfff2f2f2),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide.none),
                 focusedBorder: InputBorder.none,
               )),
           home: const SplashScreen()),

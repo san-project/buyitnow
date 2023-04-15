@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:buyitnow/services/search_repo.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:velocity_x/velocity_x.dart';
 import '../models/get_product_model.dart' as prd;
 
 import '../services/product_repo.dart';
@@ -25,6 +27,24 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
     try {
       final response = await ProductRepo().getAllProducts();
+      final listOfProducts = response.data['products'] as List;
+      _listOfProducts = prd.getProductsFromJson(listOfProducts);
+      _isLoading = false;
+      notifyListeners();
+      log("listofproducts $_listOfProducts");
+    } on DioError catch (e) {
+      _isLoading = false;
+      notifyListeners();
+      dioError(context, e);
+    }
+  }
+
+  Future<void> getSearchProducts(
+      BuildContext context, String searchText) async {
+    _isLoading = true;
+    notifyListeners();
+    try {
+      final response = await SearchRepo().getSearchProduct(searchText);
       final listOfProducts = response.data['products'] as List;
       _listOfProducts = prd.getProductsFromJson(listOfProducts);
       _isLoading = false;
@@ -113,5 +133,12 @@ class ProductProvider extends ChangeNotifier {
       notifyListeners();
       dioError(context, e);
     }
+  }
+
+  getProductsFromFilter(List<String> category) {
+    _listOfProducts = _listOfProducts.filter((element) {
+      return category.contains(element.category.id);
+    }).toList();
+    notifyListeners();
   }
 }

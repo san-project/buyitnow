@@ -1,13 +1,13 @@
-import 'package:buyitnow/screens/product_details/product_details.dart';
-import 'package:buyitnow/utils/colors.dart';
-import 'package:buyitnow/utils/size_config.dart';
+import 'package:buyitnow/providers/category_provider.dart';
+import 'package:buyitnow/widgets/filter_diolog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 import '../../providers/product_provider.dart';
 import '../../utils/check_login.dart';
-import '../../widgets/categories_widget.dart';
 import '../wishlist/wishlist_screen.dart';
+import 'package:buyitnow/screens/product_details/product_details.dart';
+import 'package:buyitnow/utils/colors.dart';
+import 'package:buyitnow/utils/size_config.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,12 +17,22 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  late final TextEditingController _searchController;
+
   @override
   void initState() {
+    _searchController = TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<ProductProvider>().getAllProducts(context);
+      context.read<CategoryProvider>().getAllCategories(context);
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _searchController = TextEditingController();
+    super.dispose();
   }
 
   @override
@@ -37,11 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(fontSize: 22, color: AppColors.textColor),
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.search),
-            color: AppColors.textColor,
-          ),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: const Icon(Icons.search),
+          //   color: AppColors.textColor,
+          // ),
           IconButton(
             onPressed: () async {
               final isLoggedIn = await checkLogin(context) ?? false;
@@ -56,11 +66,64 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.only(top: 25.h, left: 22.w, right: 22.w),
+        padding: EdgeInsets.only(top: 5.h, left: 22.w, right: 22.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const CategoriesWidget(),
+            // const CategoriesWidget(),
+            Row(
+              children: [
+                Expanded(
+                    child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Search....',
+                    hintStyle: TextStyle(
+                        fontSize: 16, color: Colors.black.withOpacity(0.6)),
+                    prefixIcon: const Icon(
+                      Icons.search,
+                      color: Colors.black,
+                    ),
+                    // fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide.none,
+                        borderRadius: BorderRadius.circular(6)),
+                  ),
+                  onChanged: (value) {
+                    context
+                        .read<ProductProvider>()
+                        .getSearchProducts(context, value);
+                  },
+                )),
+                SizedBox(
+                  width: 10.w,
+                ),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      fixedSize: Size(50.w, 50.w),
+                      padding: const EdgeInsets.all(12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    // color: Colors.black,
+                    onPressed: () async {
+                      await showFilterOptions(context);
+                      if (context
+                              .read<CategoryProvider>()
+                              .selectedCategories
+                              .isEmpty &&
+                          context.read<CategoryProvider>().radioValues ==
+                              RadioValues.relevance) {
+                        context.read<ProductProvider>().getAllProducts(context);
+                      }
+                    },
+                    child: Image.asset(
+                      'assets/filter-lines.png',
+                    )),
+              ],
+            ),
             SizedBox(
               height: 25.h,
             ),
@@ -145,3 +208,37 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
+
+/*
+SingleChildScrollView(
+                                                          child: Column(
+                                                            children: value
+                                                                .categories
+                                                                .map((e) {
+                                                              return CheckboxListTile(
+                                                                title: Text(
+                                                                    e.category),
+                                                                value: selectedCategories
+                                                                    .contains(
+                                                                        e.id),
+                                                                onChanged:
+                                                                    (isSelected) {
+                                                                  if (isSelected ==
+                                                                      true) {
+                                                                    selectedCategories
+                                                                        .add(e
+                                                                            .id);
+                                                                    return;
+                                                                  } else {
+                                                                    selectedCategories
+                                                                        .remove(
+                                                                            e.id);
+                                                                  }
+                                                                  setState(
+                                                                      () {});
+                                                                },
+                                                              );
+                                                            }).toList(),
+                                                          ),
+                                                        ); */
