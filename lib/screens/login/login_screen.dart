@@ -52,16 +52,18 @@ class _SiginPageState extends State<SiginPage> {
                 const Text(
                   "Let's sign In.",
                   style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(height: 5),
                 Row(
                   children: const [
                     Text(
                       "WelCome Back.",
-                      style: TextStyle(fontSize: 20, color: Colors.black),
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
                     ),
                   ],
                 ),

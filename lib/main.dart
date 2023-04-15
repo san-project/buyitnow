@@ -32,8 +32,16 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Buy It Now',
-          theme: ThemeData(useMaterial3: true),
-          home: SplashScreen()),
+          theme: ThemeData(
+              useMaterial3: true,
+              colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+              inputDecorationTheme: InputDecorationTheme(
+                filled: true,
+                fillColor: Colors.grey.shade200,
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+              )),
+          home: const SplashScreen()),
     );
   }
 }

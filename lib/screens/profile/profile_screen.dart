@@ -95,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
                       ListTile(
                         onTap: () async {
                           final isLoggedIn = await checkLogin(context) ?? false;
-                          if (isLoggedIn) {
+                          if (isLoggedIn && context.mounted) {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => const WishlistScreen()));
                           }

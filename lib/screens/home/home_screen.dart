@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             onPressed: () async {
               final isLoggedIn = await checkLogin(context) ?? false;
-              if (isLoggedIn) {
+              if (isLoggedIn && mounted) {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => const WishlistScreen()));
               }
@@ -98,7 +98,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   SizedBox(
-                                      //padding: EdgeInsets.all(10),
                                       height: 147.h,
                                       width: double.infinity,
                                       child: Image.network(
@@ -122,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: 8.h,
                                   ),
                                   Text(
-                                    currentProduct.price.toString(),
+                                    "₹ ${currentProduct.price}",
                                     style: const TextStyle(
                                         color: AppColors.priceColor,
                                         fontWeight: FontWeight.w700,
@@ -131,24 +130,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   SizedBox(
                                     height: 6.h,
                                   ),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.center,
-                                  //   children: [
-                                  //     RatingBarIndicator(
-                                  //       rating:
-                                  //           currentProduct.rating.toDouble(),
-                                  //       itemBuilder: (context, index) =>
-                                  //           const Icon(
-                                  //         Icons.star,
-                                  //         color: Colors.amber,
-                                  //       ),
-                                  //       itemCount: 5,
-                                  //       itemSize: 17.0,
-                                  //       direction: Axis.horizontal,
-                                  //     ),
-                                  //     Text(currentProduct.rating.toString()),
-                                  //   ],
-                                  // ),
                                 ],
                               ),
                             ),

@@ -135,16 +135,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             SizedBox(
               height: 20.h,
             ),
-            // Expanded(
-            //   child: DraggableScrollableSheet(
-            //     expand: true,
-            //     builder: (context, scrollController) {
-            //       return Container(
-            //         color: Colors.red,
-            //       );
-            //     },
-            //   ),
-            // ),
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
@@ -183,7 +173,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   itemSize: 25.0,
                                   direction: Axis.horizontal,
                                 ),
-                                Text("(3.5)")
+                                const Text("(3.5)")
                               ],
                             ),
                           ],

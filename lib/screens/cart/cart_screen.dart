@@ -1,12 +1,8 @@
-import 'dart:developer';
-
-import 'package:buyitnow/providers/cart_provider.dart';
-import 'package:buyitnow/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../providers/cart_provider.dart';
 import '../../utils/colors.dart';
-import '../../widgets/cart_appbar.dart';
 import '../../widgets/cart_bottom_navbar.dart';
 import '../../widgets/cart_item_sample.dart';
 

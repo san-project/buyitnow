@@ -30,14 +30,11 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: const Center(
-          child: Text(
-            'BuyItNow',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-          ),
+    return const Scaffold(
+      body: Center(
+        child: Text(
+          'BuyItNow',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
       ),
     );

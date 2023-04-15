@@ -166,6 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     return null;
                   },
                 ),
+                const SizedBox(height: 10),
                 TextFormField(
                   onFieldSubmitted: (value) => FocusScope.of(context)
                       .requestFocus(_confirmPasswordFocusNode),

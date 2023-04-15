@@ -8,9 +8,16 @@ Future<bool?> checkLogin(BuildContext context) async {
     return await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        content: const Text('Please Sing In'),
+        // title: Icon(
+        //   Icons.person_4_sharp,
+        //   color: Colors.tealAccent,
+        // ),
+        contentPadding: const EdgeInsets.all(16),
+        actionsPadding: EdgeInsets.all(2),
+        content: const Text(
+            'Please log in or create an account to add this product to your cart.'),
         actions: [
-          ElevatedButton(
+          TextButton(
             onPressed: () {
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
