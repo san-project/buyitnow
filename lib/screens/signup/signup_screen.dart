@@ -123,16 +123,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: userNameController,
                   decoration: InputDecoration(
                     labelText: "Enter Name",
-                    focusedBorder: UnderlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
                     suffixIcon: const Icon(
                       (Icons.email_outlined),
                     ),
                   ),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Enter UserName";
+                      return "Name cannot be empty";
                     }
                     return null;
                   },
@@ -147,9 +144,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: emailController,
                   decoration: InputDecoration(
                     labelText: "Email",
-                    focusedBorder: UnderlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
                     suffixIcon: const Icon(
                       (Icons.email_outlined),
                     ),
@@ -159,9 +153,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                         .hasMatch(value!);
                     if (value.isEmpty) {
-                      return "Enter Email";
+                      return "Email cannot be empty";
                     } else if (!emailValid) {
-                      return "Enter Valid Email";
+                      return "Please enter valid Email address";
                     }
                     return null;
                   },
@@ -177,9 +171,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                       labelText: "Password",
-                      focusedBorder: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
                       suffixIcon: InkWell(
                         onTap: () {
                           setState(() {
@@ -192,9 +183,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       )),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Enter Password";
+                      return "Password cannot be empty";
                     } else if (passwordController.text.length < 6) {
-                      return "Password length should be more then 6 characters";
+                      return "password should be minimum 8 characters";
                     }
                     return null;
                   },
@@ -211,9 +202,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                       labelText: "Confirm Password",
-                      focusedBorder: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
                       suffixIcon: InkWell(
                         onTap: () {
                           setState(() {
@@ -226,9 +214,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       )),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Enter Password";
+                      return "Password cannot be empty";
                     } else if (confPassword.text.length < 6) {
-                      return "Password length should be more then 6 characters";
+                      return "password should be minimum 8 characters";
                     } else if (confPassword.text != passwordController.text) {
                       return "Both are not same";
                     }

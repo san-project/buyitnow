@@ -9,20 +9,27 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import '../screens/home/home_screen.dart';
 
 class ButtomNavBars extends StatefulWidget {
-  const ButtomNavBars({super.key});
-
+  const ButtomNavBars({super.key, this.index = 0});
+  final int index;
   @override
   State<ButtomNavBars> createState() => _ButtomNavBarsState();
 }
 
 class _ButtomNavBarsState extends State<ButtomNavBars> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
   final List<Widget> _widgetOption = [
     const HomeScreen(),
     const CategoriesScreen(),
     const CartScreen(),
     const ProfileScreen(),
   ];
+
+  @override
+  void initState() {
+    _selectedIndex = widget.index;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

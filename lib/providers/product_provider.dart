@@ -22,6 +22,7 @@ class ProductProvider extends ChangeNotifier {
   List<prd.ProductModel> get listOfProductsFilter => _listOfProductsFilter;
   List<prd.ProductModel> _wishlist = [];
   List<prd.ProductModel> get wishlist => _wishlist;
+
   Future<void> getAllProducts(BuildContext context) async {
     _isLoading = true;
     notifyListeners();
@@ -117,9 +118,13 @@ class ProductProvider extends ChangeNotifier {
     try {
       if (isFavourite) {
         final response = await ProductRepo().removeProductToWishlist(id);
+        // _listOfProducts.firstWhere((element) => element.id == id).isFavourite =
+        //     false;
         log(response.data.toString());
       } else {
         final response = await ProductRepo().addProductToWishlist(id);
+        // _listOfProducts.firstWhere((element) => element.id == id).isFavourite =
+        //     true;
         log(response.data.toString());
       }
 

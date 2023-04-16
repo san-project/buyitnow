@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/product_provider.dart';
 import '../../utils/check_login.dart';
+import '../../widgets/loading_widget.dart';
 import '../wishlist/wishlist_screen.dart';
 import 'package:buyitnow/screens/product_details/product_details.dart';
 import 'package:buyitnow/utils/colors.dart';
@@ -135,8 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   child: Visibility(
                     visible: !provider.isLoading,
-                    replacement:
-                        const Center(child: CircularProgressIndicator()),
+                    replacement: Center(child: LoadingWidget()),
                     child: GridView.builder(
                         itemCount: provider.listOfProducts.length,
                         gridDelegate:

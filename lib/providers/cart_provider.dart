@@ -12,7 +12,11 @@ class CartProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   Cart? _cart;
   Cart? get cart => _cart;
+  List<String> _cartProducts = [];
+  List<String> get cartProducts => _cartProducts;
+
   Future<void> addCartProduct(String id, BuildContext context) async {
+    _cartProducts.add(id);
     _isLoading = true;
     notifyListeners();
     try {
@@ -61,8 +65,11 @@ class CartProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteCart(BuildContext context, String cartId) async {
+  Future<void> deleteCart(
+      BuildContext context, String cartId, String productId) async {
     _isLoading = true;
+
+    _cartProducts.remove(productId);
     notifyListeners();
     try {
       await CartRepo()

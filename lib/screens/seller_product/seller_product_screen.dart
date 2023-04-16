@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../providers/product_provider.dart';
 import '../../utils/colors.dart';
+import '../../widgets/loading_widget.dart';
 import '../product_details/product_details.dart';
 
 class SellerProductScreen extends StatefulWidget {
@@ -47,7 +48,7 @@ class _SellerProductScreenState extends State<SellerProductScreen> {
             },
             child: Visibility(
               visible: !provider.isLoading,
-              replacement: const Center(child: CircularProgressIndicator()),
+              replacement: const Center(child: LoadingWidget()),
               child: GridView.builder(
                   itemCount: provider.listOfProductsFilter.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

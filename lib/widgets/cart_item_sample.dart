@@ -69,7 +69,9 @@ class CartItem extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    context.read<CartProvider>().deleteCart(context, cart.id);
+                    context
+                        .read<CartProvider>()
+                        .deleteCart(context, cart.id, cart.product.id);
                   },
                   child: const Icon(
                     Icons.delete,

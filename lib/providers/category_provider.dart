@@ -9,6 +9,7 @@ import '../widgets/filter_diolog.dart';
 class CategoryProvider extends ChangeNotifier {
   List<Category> _categories = [];
   List<Category> get categories => _categories;
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 

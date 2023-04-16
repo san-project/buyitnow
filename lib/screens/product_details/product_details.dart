@@ -13,6 +13,8 @@ import '../../utils/check_login.dart';
 import '../../utils/colors.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../../widgets/bottom_navbar.dart';
+
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.item});
   final ProductModel item;
@@ -25,11 +27,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   late bool isFavourite;
   int _curernt = 0;
   late final List<String> _images;
+  late bool isAddedToCart;
   @override
   void initState() {
     isFavourite = widget.item.isFavourite;
     _images = widget.item.images.map((e) => e.url).toList();
     _images.insert(0, widget.item.thumbnail.url);
+    isAddedToCart = context.read<CartProvider>().cart?.cart.any(
+              (element) => element.product.id == widget.item.id,
+            ) ??
+        false;
     super.initState();
   }
 
@@ -153,12 +160,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              widget.item.name,
-                              style: const TextStyle(
-                                  fontSize: 25,
-                                  color: AppColors.priceColor,
-                                  fontWeight: FontWeight.bold),
+                            Expanded(
+                              child: Text(
+                                widget.item.name,
+                                style: const TextStyle(
+                                    fontSize: 25,
+                                    color: AppColors.priceColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -232,27 +241,39 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           color: AppColors.textColor,
                           fontWeight: FontWeight.bold),
                     ),
-                    FloatingActionButton.extended(
-                      label: const Text(
-                        'add To Cart',
-                        style: TextStyle(color: AppColors.priceColor),
-                      ), // <-- Text
-                      backgroundColor: Colors.grey.shade300,
-                      icon: const Icon(
-                        // <-- Icon
-                        CupertinoIcons.cart_badge_plus,
-                        color: AppColors.priceColor,
-                        size: 24.0,
-                      ),
-                      onPressed: () async {
-                        final isLoggedIn = await checkLogin(context) ?? false;
-                        if (isLoggedIn && mounted) {
-                          context
-                              .read<CartProvider>()
-                              .addCartProduct(widget.item.id, context);
-                        }
-                      },
-                    ),
+                    Consumer<CartProvider>(builder: (context, provider, _) {
+                      final isAddedToCart =
+                          provider.cartProducts.contains(widget.item.id);
+                      return FloatingActionButton.extended(
+                        label: Text(
+                          isAddedToCart ? 'Go To Cart' : 'add To Cart',
+                          style: TextStyle(color: AppColors.priceColor),
+                        ), // <-- Text
+                        backgroundColor: Colors.grey.shade300,
+                        icon: const Icon(
+                          // <-- Icon
+                          CupertinoIcons.cart_badge_plus,
+                          color: AppColors.priceColor,
+                          size: 24.0,
+                        ),
+                        onPressed: () async {
+                          final isLoggedIn = await checkLogin(context) ?? false;
+
+                          if (isLoggedIn && mounted) {
+                            !isAddedToCart
+                                ? context
+                                    .read<CartProvider>()
+                                    .addCartProduct(widget.item.id, context)
+                                : Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => const ButtomNavBars(
+                                              index: 2,
+                                            )));
+                          }
+                        },
+                      );
+                    }),
                   ],
                 ),
               ),

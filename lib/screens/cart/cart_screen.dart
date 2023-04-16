@@ -1,10 +1,15 @@
+import 'package:buyitnow/screens/home/home_screen.dart';
+import 'package:buyitnow/utils/shared_prefs.dart';
+import 'package:buyitnow/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/cart_provider.dart';
 import '../../utils/colors.dart';
+import '../../widgets/bottom_navbar.dart';
 import '../../widgets/cart_bottom_navbar.dart';
 import '../../widgets/cart_item_sample.dart';
+import '../login/login_screen.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -17,43 +22,99 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<CartProvider>().getCartProduct(context);
+      if (SharedPrefs.instance().token != null) {
+        context.read<CartProvider>().getCartProduct(context);
+      }
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CartProvider>(builder: (context, provider, _) {
-      return Visibility(
-        visible: !provider.isLoading,
-        replacement: const Center(
-          child: CircularProgressIndicator(),
-        ),
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              'Cart',
-              style: TextStyle(
-                  fontSize: 23,
-                  color: AppColors.priceColor,
-                  fontWeight: FontWeight.w700),
+    return SharedPrefs.instance().token == null
+        ? Scaffold(
+            appBar: AppBar(
+              title: const Text(
+                'Cart',
+                style: TextStyle(
+                    fontSize: 23,
+                    color: AppColors.priceColor,
+                    fontWeight: FontWeight.w700),
+              ),
             ),
-          ),
-          body: provider.cart?.cart.isEmpty ?? true
-              ? const Center(
-                  child: Text('You have not added products in cart'),
-                )
-              : ListView.builder(
-                  itemCount: provider.cart!.cart.length,
-                  itemBuilder: (context, index) =>
-                      CartItem(cart: provider.cart!.cart[index]),
+            body: Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('You Should Login'),
+                OutlinedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => const SiginPage(),
+                          ),
+                          (route) => false);
+                    },
+                    child: const Text('Sign In'))
+              ],
+            )),
+          )
+        : Consumer<CartProvider>(builder: (context, provider, _) {
+            if (provider.isLoading || provider.cart == null) {
+              return const LoadingWidget();
+            } else {
+              return Scaffold(
+                appBar: AppBar(
+                  title: const Text(
+                    'Cart',
+                    style: TextStyle(
+                        fontSize: 23,
+                        color: AppColors.priceColor,
+                        fontWeight: FontWeight.w700),
+                  ),
                 ),
-          bottomNavigationBar:
-              provider.cart!.cart.isNotEmpty ? const CartBottomBar() : null,
-        ),
-      );
-    });
+                body: provider.cart?.cart.isEmpty ?? true
+                    ? Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/empty-cart.png',
+                              scale: 3,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Text(
+                              'Your Cart is Empty',
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            OutlinedButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const ButtomNavBars()));
+                                },
+                                child: const Text('Start Shopping'))
+                          ],
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: provider.cart?.cart.length,
+                        itemBuilder: (context, index) =>
+                            CartItem(cart: provider.cart!.cart[index]),
+                      ),
+                bottomNavigationBar:
+                    provider.cart!.cart.isNotEmpty ? CartBottomBar() : null,
+              );
+            }
+          });
   }
 }
 

@@ -82,12 +82,9 @@ class _SiginPageState extends State<SiginPage> {
                   textInputAction: TextInputAction.next,
                   keyboardType: TextInputType.emailAddress,
                   controller: emailController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Email",
-                    focusedBorder: UnderlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    suffixIcon: const Icon(
+                    suffixIcon: Icon(
                       (Icons.email_outlined),
                     ),
                   ),
@@ -96,9 +93,9 @@ class _SiginPageState extends State<SiginPage> {
                             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                         .hasMatch(value!);
                     if (value.isEmpty) {
-                      return "Enter Email";
+                      return "Email cannot be empty";
                     } else if (!emailValid) {
-                      return "Enter Valid Email";
+                      return "Please enter valid Email address";
                     }
                     return null;
                   },
@@ -111,9 +108,6 @@ class _SiginPageState extends State<SiginPage> {
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
                       labelText: "Password",
-                      focusedBorder: UnderlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
                       suffixIcon: InkWell(
                         onTap: () {
                           setState(() {
@@ -126,9 +120,9 @@ class _SiginPageState extends State<SiginPage> {
                       )),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return "Enter Password";
+                      return "Password cannot be empty";
                     } else if (passwordController.text.length < 6) {
-                      return "Password length should be more then 6 characters";
+                      return "password should be minimum 8 characters";
                     }
                     return null;
                   },
