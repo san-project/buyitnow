@@ -71,7 +71,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                               alignment: Alignment.bottomCenter,
                               child: Text(
                                 currentCategory.category,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18, fontWeight: FontWeight.bold),
                               )),
                         ],

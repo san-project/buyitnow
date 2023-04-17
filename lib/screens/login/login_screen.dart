@@ -134,7 +134,7 @@ class _SiginPageState extends State<SiginPage> {
                     TextButton(
                       onPressed: () {},
                       child: const Text(
-                        "Forget Passord?",
+                        "Forget Password?",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

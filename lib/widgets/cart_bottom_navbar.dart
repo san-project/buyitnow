@@ -57,68 +57,76 @@ class CartBottomBar extends StatelessWidget {
                             topRight: Radius.circular(15)),
                       ),
                       builder: (context) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 20.h,
-                            ),
-                            TextField(
-                              controller: address,
-                              decoration: const InputDecoration(
-                                  hintText: 'Address',
-                                  filled: true,
-                                  fillColor:
-                                      Color.fromARGB(255, 231, 226, 226)),
-                            ),
-                            const Text('Payment Mode: '),
-                            SizedBox(
-                              height: 70.h,
-                              width: SizeConfig.screenWidth,
-                              child: Row(
-                                children: [
-                                  Radio(
-                                      activeColor: Colors.orange[700],
-                                      value: orderProvider.paymentMode,
-                                      groupValue: PaymentMode.cashOnDelivery,
-                                      onChanged: (v) {}),
-                                  const Text('Cash On Delivery'),
-                                  Radio(
-                                      value: orderProvider.paymentMode,
-                                      groupValue: PaymentMode.paypal,
-                                      onChanged: (v) {}),
-                                  const Text(
-                                    'Payment (coming soon)',
-                                    style: TextStyle(color: Colors.grey),
-                                  )
-                                  // RadioListTile(
-                                  //   title: const Text('Cash On Delivery'),
-                                  //   value: orderProvider.paymentMode,
-                                  //   groupValue: PaymentMode.cashOnDelivery,
-                                  //   onChanged: (value) {},
-                                  // ),
-                                  // RadioListTile(
-                                  //   title: const Text('Paypal (coming soon)'),
-                                  //   value: orderProvider.paymentMode,
-                                  //   groupValue: PaymentMode.cashOnDelivery,
-                                  //   onChanged: (value) {},
-                                  // ),
-                                ],
+                        return Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 20.h,
                               ),
-                            ),
-                            ElevatedButton(
-                                onPressed: () {
-                                  if (address.text.isEmpty) {
-                                    return;
-                                  }
-                                  orderProvider
-                                      .addNewOrder(context, address.text)
-                                      .then((value) =>
-                                          provider.getCartProduct(context));
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('Order Now'))
-                          ],
+                              TextField(
+                                controller: address,
+                                decoration: const InputDecoration(
+                                    hintText: 'Address',
+                                    filled: true,
+                                    fillColor:
+                                        Color.fromARGB(255, 231, 226, 226)),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              const Text('Payment Mode: '),
+                              SizedBox(
+                                height: 70.h,
+                                width: SizeConfig.screenWidth,
+                                child: Row(
+                                  children: [
+                                    Radio(
+                                        activeColor: Colors.orange[700],
+                                        value: orderProvider.paymentMode,
+                                        groupValue: PaymentMode.cashOnDelivery,
+                                        onChanged: (v) {}),
+                                    const Text('Cash On Delivery'),
+                                    Radio(
+                                        value: orderProvider.paymentMode,
+                                        groupValue: PaymentMode.paypal,
+                                        onChanged: (v) {}),
+                                    const Text(
+                                      'Payment (coming soon)',
+                                      style: TextStyle(color: Colors.grey),
+                                    )
+                                    // RadioListTile(
+                                    //   title: const Text('Cash On Delivery'),
+                                    //   value: orderProvider.paymentMode,
+                                    //   groupValue: PaymentMode.cashOnDelivery,
+                                    //   onChanged: (value) {},
+                                    // ),
+                                    // RadioListTile(
+                                    //   title: const Text('Paypal (coming soon)'),
+                                    //   value: orderProvider.paymentMode,
+                                    //   groupValue: PaymentMode.cashOnDelivery,
+                                    //   onChanged: (value) {},
+                                    // ),
+                                  ],
+                                ),
+                              ),
+                              Center(
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      if (address.text.isEmpty) {
+                                        return;
+                                      }
+                                      orderProvider
+                                          .addNewOrder(context, address.text)
+                                          .then((value) =>
+                                              provider.getCartProduct(context));
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('Order Now')),
+                              )
+                            ],
+                          ),
                         );
                       });
                 },

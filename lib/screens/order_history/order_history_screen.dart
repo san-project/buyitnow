@@ -1,4 +1,6 @@
 import 'package:buyitnow/providers/order_provider.dart';
+import 'package:buyitnow/screens/order_details/order_details_screen.dart';
+import 'package:buyitnow/utils/size_config.dart';
 import 'package:buyitnow/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,19 +32,84 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
           if (value.isLoading) {
             return const LoadingWidget();
           } else if (value.listOfOrder.isEmpty) {
-            return Text('No ordes');
+            return const Text('No ordes');
           } else {
             return ListView.builder(
               itemCount: value.listOfOrder.length,
               itemBuilder: (context, index) {
                 final currentOrder = value.listOfOrder[index];
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(currentOrder.products.length.toString()),
-                    Text(currentOrder.status)
-                  ],
+                return Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => OrderDetailsScreen(),
+                      ));
+                    },
+                    child: Card(
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        height: 130.h,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Row(
+                              children: [
+                                const Text(
+                                  'OrderId:',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(' ${currentOrder.id}'),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  'Items: ',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                    '${currentOrder.products.length.toString()}'),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Text(
+                                  'Product Status: ',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text('${currentOrder.status}')
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'Total:  ',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                        '₹ ${currentOrder.totalPrice.toString()}'),
+                                  ],
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 );
               },
             );
