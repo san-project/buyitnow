@@ -29,7 +29,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                   style: TextStyle(color: Colors.grey),
                 )
               ],
-            )
+            ),
+            
           ],
         ),
       ),
