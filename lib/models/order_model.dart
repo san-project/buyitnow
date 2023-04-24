@@ -1,12 +1,51 @@
-// To parse this JSON data, do
-//
-//     final order = orderFromJson(jsonString);
+import 'package:buyitnow/models/get_product_model.dart';
 
-import 'dart:convert';
+enum OrderStatus { notProccessed, processing, shipped, delivered, cancel }
 
-Order orderFromJson(String str) => Order.fromJson(json.decode(str));
+extension OrderStatusValue on OrderStatus {
+  String get value {
+    switch (this) {
+      case OrderStatus.notProccessed:
+        return "Not Proccesssed";
+      case OrderStatus.processing:
+        return "Processing";
+      case OrderStatus.shipped:
+        return "Shipped";
+      case OrderStatus.delivered:
+        return "Delivered";
+      case OrderStatus.cancel:
+        return "Canceled";
+    }
+  }
+}
 
-String orderToJson(Order data) => json.encode(data.toJson());
+const Map<String, OrderStatus> orderMap = {
+  "Not Process": OrderStatus.notProccessed,
+  "Processing": OrderStatus.processing,
+  "Shipped": OrderStatus.shipped,
+  "Delivered": OrderStatus.delivered,
+  "Canceled": OrderStatus.cancel
+};
+
+class Seller {
+  Seller({
+    required this.id,
+    required this.businessName,
+  });
+
+  String id;
+  String businessName;
+
+  factory Seller.fromJson(Map<String, dynamic> json) => Seller(
+        id: json["_id"],
+        businessName: json["businessName"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "businessName": businessName,
+      };
+}
 
 class Order {
   Order({
@@ -24,12 +63,12 @@ class Order {
   });
 
   final String id;
-  final List<Product> products;
-  final String seller;
+  final List<ProductElement> products;
+  final Seller seller;
   final String payment;
   final String buyer;
   final int totalPrice;
-  final String status;
+  final OrderStatus status;
   final String deliveryAddress;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -37,14 +76,59 @@ class Order {
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         id: json["_id"],
-        products: List<Product>.from(
-            json["products"].map((x) => Product.fromJson(x))),
-        seller: json["seller"],
+        products: List<ProductElement>.from(
+            json["products"].map((x) => ProductElement.fromJson(x))),
+        seller: Seller.fromJson(json["seller"]),
         payment: json["payment"],
         buyer: json["buyer"],
         totalPrice: json["totalPrice"],
-        status: json["status"],
+        status:
+            orderMap[json["status"].toString()] ?? OrderStatus.notProccessed,
         deliveryAddress: json["deliveryAddress"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        v: json["__v"],
+      );
+
+  // Map<String, dynamic> toJson() => {
+  //       "_id": id,
+  //       "products": List<dynamic>.from(products.map((x) => x.toJson())),
+  //       "seller": seller,
+  //       "payment": payment,
+  //       "buyer": buyer.toJson(),
+  //       "totalPrice": totalPrice,
+  //       "status": status,
+  //       "deliveryAddress": deliveryAddress,
+  //       "createdAt": createdAt.toIso8601String(),
+  //       "updatedAt": updatedAt.toIso8601String(),
+  //       "__v": v,
+  //     };
+}
+
+class Buyer {
+  Buyer({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.password,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.v,
+  });
+
+  final String id;
+  final String name;
+  final String email;
+  final String password;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int v;
+
+  factory Buyer.fromJson(Map<String, dynamic> json) => Buyer(
+        id: json["_id"],
+        name: json["name"],
+        email: json["email"],
+        password: json["password"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],
@@ -52,39 +136,136 @@ class Order {
 
   Map<String, dynamic> toJson() => {
         "_id": id,
-        "products": List<dynamic>.from(products.map((x) => x.toJson())),
-        "seller": seller,
-        "payment": payment,
-        "buyer": buyer,
-        "totalPrice": totalPrice,
-        "status": status,
-        "deliveryAddress": deliveryAddress,
+        "name": name,
+        "email": email,
+        "password": password,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "__v": v,
       };
 }
 
-class Product {
-  Product({
+class ProductElement {
+  ProductElement({
     required this.product,
     required this.quantity,
     required this.id,
   });
 
-  final String product;
+  final ProductModel product;
   final int quantity;
   final String id;
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        product: json["product"],
+  factory ProductElement.fromJson(Map<String, dynamic> json) => ProductElement(
+        product: ProductModel.fromJson(json["product"]),
         quantity: json["quantity"],
         id: json["_id"],
       );
 
+  // Map<String, dynamic> toJson() => {
+  //       "product": ,
+  //       "quantity": quantity,
+  //       "_id": id,
+  //     };
+}
+
+class ProductProduct {
+  ProductProduct({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.category,
+    required this.brand,
+    required this.images,
+    required this.thumbnail,
+    required this.price,
+    required this.countInStock,
+    required this.rating,
+    required this.numReviews,
+    required this.seller,
+    required this.feature,
+    required this.reviews,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.v,
+  });
+
+  final String id;
+  final String name;
+  final String description;
+  final String category;
+  final String brand;
+  final List<Thumbnail> images;
+  final Thumbnail thumbnail;
+  final int price;
+  final int countInStock;
+  final int rating;
+  final int numReviews;
+  final String seller;
+  final String feature;
+  final List<dynamic> reviews;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final int v;
+
+  factory ProductProduct.fromJson(Map<String, dynamic> json) => ProductProduct(
+        id: json["_id"],
+        name: json["name"],
+        description: json["description"],
+        category: json["category"],
+        brand: json["brand"],
+        images: List<Thumbnail>.from(
+            json["images"].map((x) => Thumbnail.fromJson(x))),
+        thumbnail: Thumbnail.fromJson(json["thumbnail"]),
+        price: json["price"],
+        countInStock: json["countInStock"],
+        rating: json["rating"],
+        numReviews: json["numReviews"],
+        seller: json["seller"],
+        feature: json["feature"],
+        reviews: List<dynamic>.from(json["reviews"].map((x) => x)),
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        v: json["__v"],
+      );
+
   Map<String, dynamic> toJson() => {
-        "product": product,
-        "quantity": quantity,
         "_id": id,
+        "name": name,
+        "description": description,
+        "category": category,
+        "brand": brand,
+        "images": List<dynamic>.from(images.map((x) => x.toJson())),
+        "thumbnail": thumbnail.toJson(),
+        "price": price,
+        "countInStock": countInStock,
+        "rating": rating,
+        "numReviews": numReviews,
+        "seller": seller,
+        "feature": feature,
+        "reviews": List<dynamic>.from(reviews.map((x) => x)),
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
+        "__v": v,
+      };
+}
+
+class Thumbnail {
+  Thumbnail({
+    required this.url,
+    required this.publicId,
+  });
+
+  final String url;
+  final String publicId;
+
+  factory Thumbnail.fromJson(Map<String, dynamic> json) => Thumbnail(
+        url: json["url"],
+        publicId: json["publicId"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "url": url,
+        "publicId": publicId,
       };
 }

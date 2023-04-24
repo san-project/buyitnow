@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:buyitnow/providers/category_provider.dart';
 import 'package:buyitnow/widgets/filter_diolog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:velocity_x/velocity_x.dart';
 import '../../providers/product_provider.dart';
 import '../../utils/check_login.dart';
 import '../../widgets/loading_widget.dart';
@@ -48,11 +51,6 @@ class _HomeScreenState extends State<HomeScreen> {
           style: TextStyle(fontSize: 22, color: AppColors.textColor),
         ),
         actions: [
-          // IconButton(
-          //   onPressed: () {},
-          //   icon: const Icon(Icons.search),
-          //   color: AppColors.textColor,
-          // ),
           IconButton(
             onPressed: () async {
               final isLoggedIn = await checkLogin(context) ?? false;
@@ -111,14 +109,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     // color: Colors.black,
                     onPressed: () async {
                       await showFilterOptions(context);
-                      if (context
-                              .read<CategoryProvider>()
-                              .selectedCategories
-                              .isEmpty &&
-                          context.read<CategoryProvider>().radioValues ==
-                              RadioValues.relevance) {
-                        context.read<ProductProvider>().getAllProducts(context);
-                      }
+                      // if (context
+                      //         .read<CategoryProvider>()
+                      //         .selectedCategories
+                      //         .isEmpty &&
+                      //     context.read<CategoryProvider>().radioValues ==
+                      //         RadioValues.relevance) {
+                      // }
                     },
                     child: Image.asset(
                       'assets/filter-lines.png',
@@ -129,16 +126,33 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 25.h,
             ),
             Expanded(
-              child: Consumer<ProductProvider>(
-                builder: (context, provider, _) => RefreshIndicator(
+              child: Consumer2<ProductProvider, CategoryProvider>(
+                builder: (context, provider, categoryProvider, _) =>
+                    RefreshIndicator(
                   onRefresh: () async {
                     await provider.getAllProducts(context);
                   },
-                  child: Visibility(
-                    visible: !provider.isLoading,
-                    replacement: Center(child: LoadingWidget()),
-                    child: GridView.builder(
-                        itemCount: provider.listOfProducts.length,
+                  child: Builder(builder: (context) {
+                    if (provider.isLoading) {
+                      return const Center(child: LoadingWidget());
+                    }
+                    final sortedProducts =
+                        categoryProvider.radioValues == RadioValues.relevance
+                            ? provider.listOfProducts
+                            : provider.listOfProducts.sortedBy((a, b) =>
+                                categoryProvider.radioValues ==
+                                        RadioValues.lowToHigh
+                                    ? a.price.compareTo(b.price)
+                                    : b.price.compareTo(a.price));
+                    final products = categoryProvider.selectedCategories.isEmpty
+                        ? sortedProducts
+                        : sortedProducts
+                            .filter((element) => categoryProvider
+                                .selectedCategories
+                                .contains(element.category.id))
+                            .toList();
+                    return GridView.builder(
+                        itemCount: products.length,
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -146,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisSpacing: 15,
                                 childAspectRatio: 0.65),
                         itemBuilder: (context, index) {
-                          final currentProduct = provider.listOfProducts[index];
+                          final currentProduct = products[index];
                           return GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
@@ -197,8 +211,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                           );
-                        }),
-                  ),
+                        });
+                  }),
                 ),
               ),
             )
@@ -208,37 +222,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
-/*
-SingleChildScrollView(
-                                                          child: Column(
-                                                            children: value
-                                                                .categories
-                                                                .map((e) {
-                                                              return CheckboxListTile(
-                                                                title: Text(
-                                                                    e.category),
-                                                                value: selectedCategories
-                                                                    .contains(
-                                                                        e.id),
-                                                                onChanged:
-                                                                    (isSelected) {
-                                                                  if (isSelected ==
-                                                                      true) {
-                                                                    selectedCategories
-                                                                        .add(e
-                                                                            .id);
-                                                                    return;
-                                                                  } else {
-                                                                    selectedCategories
-                                                                        .remove(
-                                                                            e.id);
-                                                                  }
-                                                                  setState(
-                                                                      () {});
-                                                                },
-                                                              );
-                                                            }).toList(),
-                                                          ),
-                                                        ); */

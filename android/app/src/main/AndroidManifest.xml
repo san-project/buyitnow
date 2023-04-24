@@ -3,8 +3,9 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="buyitnow"
+        android:label="Buy It Now"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

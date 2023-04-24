@@ -1,3 +1,4 @@
+import 'package:buyitnow/models/order_model.dart';
 import 'package:buyitnow/providers/order_provider.dart';
 import 'package:buyitnow/screens/order_details/order_details_screen.dart';
 import 'package:buyitnow/utils/size_config.dart';
@@ -43,7 +44,8 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                   child: InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => OrderDetailsScreen(),
+                        builder: (context) =>
+                            OrderDetailScreen(order: currentOrder),
                       ));
                     },
                     child: Card(
@@ -73,8 +75,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Text(
-                                    '${currentOrder.products.length.toString()}'),
+                                Text(currentOrder.products.length.toString()),
                               ],
                             ),
                             Row(
@@ -85,7 +86,7 @@ class _OrderHistoryScreenState extends State<OrderHistoryScreen> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                Text('${currentOrder.status}')
+                                Text(currentOrder.status.value)
                               ],
                             ),
                             Row(

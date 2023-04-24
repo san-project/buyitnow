@@ -217,11 +217,11 @@ Future<bool?> showFilterOptions(BuildContext context) async {
               ],
             )),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               decoration: BoxDecoration(color: Colors.white, boxShadow: [
                 BoxShadow(
                     color: Colors.black.withOpacity(0.05),
-                    offset: Offset(-2, -2),
+                    offset: const Offset(-2, -2),
                     spreadRadius: 5,
                     blurRadius: 5)
               ]),
@@ -252,10 +252,10 @@ Future<bool?> showFilterOptions(BuildContext context) async {
                               provider.selectedCategories.isEmpty
                           ? null
                           : () {
-                              context
-                                  .read<ProductProvider>()
-                                  .getProductsFromFilter(
-                                      provider.selectedCategories);
+                              // context
+                              //     .read<ProductProvider>()
+                              //     .getProductsFromFilter(
+                              //         provider.selectedCategories);
                               Navigator.pop(context, true);
                             },
                       child: const Text('Apply Filters'))

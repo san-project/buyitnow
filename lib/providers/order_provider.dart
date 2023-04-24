@@ -10,8 +10,8 @@ enum PaymentMode { cashOnDelivery, paypal }
 class OrderProvider extends ChangeNotifier {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
-  List<Order> _listOfOrder = [];
-  List<Order> get listOfOrder => _listOfOrder;
+  List<Order> _listOfOrders = [];
+  List<Order> get listOfOrder => _listOfOrders;
 
   PaymentMode _paymentMode = PaymentMode.cashOnDelivery;
   PaymentMode get paymentMode => _paymentMode;
@@ -35,9 +35,10 @@ class OrderProvider extends ChangeNotifier {
       _isLoading = true;
       notifyListeners();
       final response = await OrderRepo().getAllOrders();
-      _listOfOrder = (response.data['orders'] as List)
+      _listOfOrders = (response.data['orders'] as List)
           .map((e) => Order.fromJson(e))
           .toList();
+      // log(_listOfOrders.length.toString());
       _isLoading = false;
       notifyListeners();
     } on DioError catch (e) {
