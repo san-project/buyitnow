@@ -37,7 +37,7 @@ class _CategoryProductSCreenState extends State<CategoryProductSCreen> {
         centerTitle: true,
         title: Text(
           widget.categoryName,
-          style: TextStyle(color: AppColors.priceColor),
+          style: const TextStyle(color: AppColors.priceColor),
         ),
       ),
       body: Padding(
@@ -51,7 +51,7 @@ class _CategoryProductSCreenState extends State<CategoryProductSCreen> {
               visible: !provider.isLoading,
               replacement: const Center(child: LoadingWidget()),
               child: provider.listOfProductsFilter.isEmpty
-                  ? EmptyWidget()
+                  ? const EmptyWidget()
                   : GridView.builder(
                       itemCount: provider.listOfProductsFilter.length,
                       gridDelegate:

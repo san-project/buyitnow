@@ -1,4 +1,4 @@
-import 'package:buyitnow/screens/home/home_screen.dart';
+import 'package:buyitnow/screens/forgot_password/forgot_password.dart';
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -132,9 +132,13 @@ class _SiginPageState extends State<SiginPage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const ForgotPassword(),
+                        ));
+                      },
                       child: const Text(
-                        "Forget Password?",
+                        "Forgot Password?",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,

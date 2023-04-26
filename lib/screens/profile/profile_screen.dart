@@ -138,9 +138,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   builder: (context) =>
                                       const OrderHistoryScreen()));
                             },
-                            title: Text('Order History'),
-                            leading: Icon(Icons.history),
-                            trailing: Icon(
+                            title: const Text('Order History'),
+                            leading: const Icon(Icons.history),
+                            trailing: const Icon(
                               Icons.arrow_forward_ios,
                               size: 18,
                             ),

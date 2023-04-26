@@ -1,9 +1,7 @@
 import 'package:buyitnow/screens/product_details/product_details.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../../models/order_model.dart';
-import '../../widgets/loading_widget.dart';
 
 class OrderDetailScreen extends StatelessWidget {
   const OrderDetailScreen({super.key, required this.order});

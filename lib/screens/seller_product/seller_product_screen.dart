@@ -1,6 +1,5 @@
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/product_provider.dart';

@@ -2,7 +2,6 @@ import 'package:buyitnow/models/get_product_model.dart';
 import 'package:buyitnow/providers/cart_provider.dart';
 import 'package:buyitnow/providers/product_provider.dart';
 import 'package:buyitnow/screens/seller_product/seller_product_screen.dart';
-import 'package:buyitnow/utils/extensions.dart';
 import 'package:buyitnow/utils/size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -212,7 +211,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 },
                                 child: Text(
                                   widget.item.seller.businessName,
-                                  style: TextStyle(color: Colors.blue),
+                                  style: const TextStyle(color: Colors.blue),
                                 ))
                           ],
                         ),
@@ -247,7 +246,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       return FloatingActionButton.extended(
                         label: Text(
                           isAddedToCart ? 'Go To Cart' : 'add To Cart',
-                          style: TextStyle(color: AppColors.priceColor),
+                          style: const TextStyle(color: AppColors.priceColor),
                         ), // <-- Text
                         backgroundColor: Colors.grey.shade300,
                         icon: const Icon(
@@ -282,41 +281,5 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
       ),
     );
-  }
-
-  Widget _icon(
-    IconData icon, {
-    Color color = const Color(0xffa8a09b),
-    double size = 20,
-    double padding = 10,
-    bool isOutLine = false,
-    Function? onPressed,
-  }) {
-    return Container(
-      height: 40,
-      width: 40,
-      padding: EdgeInsets.all(padding),
-      decoration: BoxDecoration(
-        border: Border.all(
-            color: const Color(0xffa8a09b),
-            style: isOutLine ? BorderStyle.solid : BorderStyle.none),
-        borderRadius: const BorderRadius.all(Radius.circular(13)),
-        color: isOutLine ? Colors.transparent : Colors.grey,
-        boxShadow: const [
-          BoxShadow(
-              color: Color(0xfff8f8f8),
-              blurRadius: 5,
-              spreadRadius: 10,
-              offset: Offset(5, 5)),
-        ],
-      ),
-      child: Icon(icon,
-          color: widget.item.isFavourite ? Colors.red : Colors.grey,
-          size: size),
-    ).ripple(() {
-      if (onPressed != null) {
-        onPressed();
-      }
-    }, borderRadius: const BorderRadius.all(Radius.circular(13)));
   }
 }

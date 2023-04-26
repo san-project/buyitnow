@@ -121,9 +121,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   focusNode: _nameFocusNode,
                   keyboardType: TextInputType.emailAddress,
                   controller: userNameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Enter Name",
-                    suffixIcon: const Icon(
+                    suffixIcon: Icon(
                       (Icons.email_outlined),
                     ),
                   ),
@@ -142,9 +142,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   focusNode: _emailFocusNode,
                   keyboardType: TextInputType.emailAddress,
                   controller: emailController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Email",
-                    suffixIcon: const Icon(
+                    suffixIcon: Icon(
                       (Icons.email_outlined),
                     ),
                   ),
@@ -184,7 +184,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Password cannot be empty";
-                    } else if (passwordController.text.length < 6) {
+                    } else if (passwordController.text.length < 8) {
                       return "password should be minimum 8 characters";
                     }
                     return null;
@@ -215,7 +215,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "Password cannot be empty";
-                    } else if (confPassword.text.length < 6) {
+                    } else if (confPassword.text.length < 8) {
                       return "password should be minimum 8 characters";
                     } else if (confPassword.text != passwordController.text) {
                       return "Both are not same";

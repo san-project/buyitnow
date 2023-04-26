@@ -98,11 +98,9 @@ class ProductProvider extends ChangeNotifier {
     notifyListeners();
     try {
       final response = await ProductRepo().getAllWishlistProducts();
-      print(response.data['wishListProducts']['products']);
       final listOfProducts =
           response.data['wishListProducts']['products'] as List;
       _wishlist = prd.getProductsFromJson(listOfProducts);
-      print(_wishlist);
       _isLoading = false;
       notifyListeners();
       log("listofproducts $_wishlist");
