@@ -135,10 +135,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                           .read<AuthProvider>()
                           .resetPassword(passwordController.text, context);
                       if (isVerified && mounted) {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const ButtomNavBars()));
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => const ButtomNavBars()),
+                          (route) => false,
+                        );
                       }
                       // if (isOtpSent) {
                       //   Navigator.of(context).push(MaterialPageRoute(
