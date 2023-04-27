@@ -27,6 +27,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int _curernt = 0;
   late final List<String> _images;
   late bool isAddedToCart;
+
   @override
   void initState() {
     isFavourite = widget.item.isFavourite;
@@ -119,6 +120,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     child: IconButton(
                       onPressed: () async {
                         final isLoggedIn = await checkLogin(context) ?? false;
+
                         if (isLoggedIn && mounted) {
                           context
                               .read<ProductProvider>()
@@ -241,36 +243,46 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                     Consumer<CartProvider>(builder: (context, provider, _) {
+                      final isOutOfStock = widget.item.countInStock <= 0;
                       final isAddedToCart =
                           provider.cartProducts.contains(widget.item.id);
                       return FloatingActionButton.extended(
-                        label: Text(
-                          isAddedToCart ? 'Go To Cart' : 'add To Cart',
-                          style: const TextStyle(color: AppColors.priceColor),
-                        ), // <-- Text
-                        backgroundColor: Colors.grey.shade300,
+                        label: isOutOfStock
+                            ? const Text('Out Of Stock')
+                            : Text(
+                                isAddedToCart ? 'Go To Cart' : 'Add To Cart',
+                                style: const TextStyle(
+                                    color: AppColors.priceColor),
+                              ), // <-- Text
+                        backgroundColor:
+                            isOutOfStock ? Colors.grey : Colors.orange[400],
                         icon: const Icon(
                           // <-- Icon
                           CupertinoIcons.cart_badge_plus,
                           color: AppColors.priceColor,
                           size: 24.0,
                         ),
-                        onPressed: () async {
-                          final isLoggedIn = await checkLogin(context) ?? false;
+                        onPressed: isOutOfStock
+                            ? null
+                            : () async {
+                                final isLoggedIn =
+                                    await checkLogin(context) ?? false;
 
-                          if (isLoggedIn && mounted) {
-                            !isAddedToCart
-                                ? context
-                                    .read<CartProvider>()
-                                    .addCartProduct(widget.item.id, context)
-                                : Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (_) => const ButtomNavBars(
-                                              index: 2,
-                                            )));
-                          }
-                        },
+                                if (isLoggedIn && mounted) {
+                                  !isAddedToCart
+                                      ? context
+                                          .read<CartProvider>()
+                                          .addCartProduct(
+                                              widget.item.id, context)
+                                      : Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) =>
+                                                  const ButtomNavBars(
+                                                    index: 2,
+                                                  )));
+                                }
+                              },
                       );
                     }),
                   ],
